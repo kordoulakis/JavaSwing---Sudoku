@@ -1,5 +1,8 @@
+import javax.swing.*;
+
 public class Main {
+
     public static void main(String[] args) {
-        System.out.println("Hello, let's play Sudoku!");
+        SwingUtilities.invokeLater(mainFrame::new); //initiates the app into the Event Dispatch Thread
     }
 }
