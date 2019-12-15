@@ -2,28 +2,28 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Observer;
 
 
 public class MainMenu extends JPanel implements ActionListener{
-    private JButton classicButton;
-    private JButton killerSudokuButton;
-    private JButton duidokuButton;
     private SudokuGrid currentGrid;
     private boolean inGame;
+    private MenuButton classicButton;  //Buttons are referenced here first so the global actionListener can access them
+    private MenuButton killerSudokuButton;
+    private MenuButton duidokuButton;
+    private MenuButton userButton;
+    private MenuButton settingsButton;
+    private MainFrame root;
 
-    public MainMenu(){
+    public MainMenu(MainFrame root){
         super();
+        this.root = root;
         inGame = false;
         instantiateMenu();
     }
 
     private void instantiateMenu(){
-        GridBagLayout layout = new GridBagLayout();
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-
-        this.setLayout(layout);
-
+        //Create Buttons
         classicButton = new MenuButton("classicButton");
         killerSudokuButton = new MenuButton("killerSudokuButton");
         duidokuButton = new MenuButton("duidokuButton");
@@ -33,15 +33,20 @@ public class MainMenu extends JPanel implements ActionListener{
         duidokuButton.addActionListener(this);
 
         //Set up Layout
-        JButton me = new JButton("THTH");
-        gbc.gridx = 1; gbc.gridy = 0;
-        gbc.ipady = 40;
-        this.add(me,gbc);
-        gbc.gridx = 0; gbc.gridy = 3;
+        GridBagLayout layout = new GridBagLayout();
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.BOTH; //tells the components how to resize if they need to
+        this.setLayout(layout);
+
+        gbc.ipadx=10; gbc.ipady=20;
+
+        gbc.gridx = 0; gbc.gridy = 4; //changes the position of the button on the grid (x,y)
         this.add(classicButton,gbc);
-        gbc.gridx = 1; gbc.gridy = 3;
+
+        gbc.gridx = 1; gbc.gridy = 4;
         this.add(killerSudokuButton,gbc);
-        gbc.gridx = 2; gbc.gridy = 3;
+
+        gbc.gridx = 2; gbc.gridy = 4;
         this.add(duidokuButton,gbc);
 
         this.setVisible(true);
@@ -50,8 +55,11 @@ public class MainMenu extends JPanel implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         MenuButton me = (MenuButton)e.getSource();
-        if (e.getSource() == classicButton)
+        if (me == classicButton) {
             currentGrid = new ClassicGrid();
+            root.add((ClassicGrid)currentGrid);
+            this.setVisible(false);
+        }
         else if (e.getSource() == killerSudokuButton)
             ;
         else if (e.getSource() == duidokuButton)
