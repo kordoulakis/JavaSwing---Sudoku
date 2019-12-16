@@ -10,23 +10,22 @@ public class Cell extends JButton {
     private int userNumber, hiddenNumber,id;
     private boolean selected;
     private boolean isSelectable;
+    private int positionX,positionY;
 
-    public Cell(){
-
-    }
-
-    public Cell(int id,boolean isSelectable){
-        setFont(new Font("Helvetica",Font.BOLD,80));
+    public Cell(int id,boolean isSelectable, int positionX, int positionY){
+        super();
         selected = false;
+        this.positionX = positionX;
+        this.positionY = positionY;
         this.isSelectable = isSelectable;
         this.id = id;
+        String m = ((Integer)id).toString();
         //Sets the color and makes the cell white, will only show color when clicked on
-        if(id%3 == 0 && id%9 != 0)
-            setBorder(BorderFactory.createMatteBorder(1,1,1,3,Color.GRAY));
         setForeground(Color.BLACK);
         setBackground(Color.ORANGE);
         setContentAreaFilled(false);
         setFocusPainted(false);
+        setFont(new Font("Helvetica",Font.BOLD,80));
     }
 
     public void select(){ //Sets the current cell as selected
@@ -41,5 +40,9 @@ public class Cell extends JButton {
     public boolean isSelectable(){ return isSelectable; }
     public void paintUserError(){ this.setBackground(Color.RED);}
     public int getID(){ return id; }
+    public int getNumber(){ return userNumber; }
+    public int getPositionX() { return positionX; }
+    public int getPositionY() { return positionY; }
+    public void setUserNumber(int number){ userNumber = number; }
 }
 

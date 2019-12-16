@@ -5,5 +5,4 @@ public interface SudokuGrid {
 
     void setCurrentSelectedCell(Cell cell);
     void createGrid(int rows, int columns);
-    void loadPuzzle();
 }
