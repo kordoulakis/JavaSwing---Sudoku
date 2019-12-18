@@ -30,15 +30,24 @@ public class Cell extends JButton {
 
     public void select(){ //Sets the current cell as selected
         selected = true;
+        setBackground(Color.ORANGE);
         setContentAreaFilled(true);
     }
     public void deSelect(){
         selected = false;
+        setBackground(Color.ORANGE);
         setContentAreaFilled(false);
     }
 
     public boolean isSelectable(){ return isSelectable; }
-    public void paintUserError(){ this.setBackground(Color.RED);}
+    public void paintUserError(){
+        this.setContentAreaFilled(true);
+        this.setBackground(Color.RED);
+    }
+    public void clearUserError(){
+        this.setContentAreaFilled(false);
+        this.setBackground(Color.ORANGE);
+    }
     public int getID(){ return id; }
     public int getNumber(){ return userNumber; }
     public int getPositionX() { return positionX; }
