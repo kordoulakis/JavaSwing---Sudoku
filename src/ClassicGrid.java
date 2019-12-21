@@ -43,20 +43,20 @@ public class ClassicGrid extends JPanel implements SudokuGrid, ActionListener, K
             }
         paintBorders();
     }
-
     @Override
     public void setCurrentSelectedCell(Cell cell) {
         if (currentSelectedCell != null && currentSelectedCell == cell)
             return;
+        else
+            controller.clearErrorCells();
+
         if (currentSelectedCell == null) {
             currentSelectedCell = cell;
-            currentSelectedCell.select();
-        } else {
+            currentSelectedCell.select(); }
+        else {
             currentSelectedCell.deSelect();
             currentSelectedCell = cell;
-            currentSelectedCell.select();
-        }
-        controller.clearErrorCells();
+            currentSelectedCell.select(); }
     }
 
     private void loadPuzzle() { //TODO Please solve this
@@ -88,7 +88,6 @@ public class ClassicGrid extends JPanel implements SudokuGrid, ActionListener, K
             System.out.println("Cought number exception" + n);
             return;
         }
-
         if (currentSelectedCell != null)
             controller.handleUserInput(userInput, userInputAsInt, currentSelectedCell, puzzle);
     }

@@ -22,14 +22,15 @@ public class Controller {
                 selectedCell.setBackground(Color.ORANGE);
                 selectedCell.setText(userInput);
                 clearErrorCells();
-            } else {
+            }
+            else {
                 for (Cell errorCell : errorCells)
                     errorCell.paintUserError();
                 selectedCell.setBackground(Color.RED);
+                selectedCell.setText("");
             }
         }
     }
-
     /**
      * This function takes in a gridCell, the user's typed key and finds out if it can be placed on the board
      * @param selectedCell The cell the user has clicked on.
