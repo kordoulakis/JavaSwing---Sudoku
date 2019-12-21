@@ -12,7 +12,7 @@ public class Cell extends JButton {
     private boolean isSelectable;
     private int positionX,positionY;
 
-    public Cell(int id,boolean isSelectable, int positionX, int positionY){
+    public Cell(int id,boolean isSelectable, int positionY, int positionX){
         super();
         selected = false;
         this.positionX = positionX;
