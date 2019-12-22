@@ -2,23 +2,19 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Observer;
+import java.io.FileNotFoundException;
 
 
 public class MainMenu extends JPanel implements ActionListener{
     private SudokuGrid currentGrid;
-    private boolean inGame;
     private MenuButton classicButton;  //Buttons are referenced here first so the global actionListener can access them
     private MenuButton killerSudokuButton;
     private MenuButton duidokuButton;
-    private MenuButton userButton;
-    private MenuButton settingsButton;
     private MainFrame root;
 
     public MainMenu(MainFrame root){
         super();
         this.root = root;
-        inGame = false;
         instantiateMenu();
     }
 
@@ -56,7 +52,11 @@ public class MainMenu extends JPanel implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         MenuButton me = (MenuButton)e.getSource();
         if (me == classicButton) {
-            currentGrid = new ClassicGrid();
+            try {
+                currentGrid = new ClassicGrid(this);
+            } catch (FileNotFoundException ex) {
+                ex.printStackTrace();
+            }
             root.add((ClassicGrid)currentGrid);
             this.setVisible(false);
         }
@@ -65,6 +65,12 @@ public class MainMenu extends JPanel implements ActionListener{
         else if (e.getSource() == duidokuButton)
             ;
         System.out.println("ActionListener worked, source: "+me.getText());
+    }
+
+    public void returnToMainMenu(){
+        currentGrid.setVisibility(false);
+        currentGrid = null;
+        this.setVisible(true);
     }
 
 }

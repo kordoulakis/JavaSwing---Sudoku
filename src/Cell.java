@@ -7,19 +7,18 @@ import java.security.Key;
 
 public class Cell extends JButton {
 
-    private int userNumber, hiddenNumber,id;
+    private int userNumber, hiddenNumber;
     private boolean selected;
     private boolean isSelectable;
     private int positionX,positionY;
 
-    public Cell(int id,boolean isSelectable, int positionY, int positionX){
+    public Cell(boolean isSelectable, int positionY, int positionX){
         super();
         selected = false;
         this.positionX = positionX;
         this.positionY = positionY;
         this.isSelectable = isSelectable;
-        this.id = id;
-        String m = ((Integer)id).toString();
+
         //Sets the color and makes the cell white, will only show color when clicked on
         setForeground(Color.BLACK);
         setBackground(Color.ORANGE);
@@ -48,10 +47,14 @@ public class Cell extends JButton {
         this.setContentAreaFilled(false);
         this.setBackground(Color.ORANGE);
     }
-    public int getID(){ return id; }
+
+    public void setSelectable(boolean selectable){ isSelectable = selectable; }
     public int getNumber(){ return userNumber; }
+    public int getHiddenNumber() { return hiddenNumber; }
     public int getPositionX() { return positionX; }
     public int getPositionY() { return positionY; }
+
+    public void setHiddenNumber(int number) { hiddenNumber = number; }
     public void setUserNumber(int number){ userNumber = number; }
 }
 

@@ -1,8 +1,5 @@
 public interface SudokuGrid {
 
-    Cell currentSelectedCell=null;
-    String language=null;
+    void setVisibility(boolean visible);
 
-    void setCurrentSelectedCell(Cell cell);
-    void createGrid(int rows, int columns);
 }
