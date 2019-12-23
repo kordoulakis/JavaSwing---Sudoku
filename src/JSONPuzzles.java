@@ -2,7 +2,7 @@ import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.net.URL;
+import java.util.Random;
 
 /***
  * This class handles the transformation of the JSON Files "puzzles.json" into a java object using gson
@@ -18,15 +18,16 @@ public class JSONPuzzles {
     }
 
     static JSONPuzzles deserializeFile() throws FileNotFoundException {
-        String path = "src/Puzzles/puzzles.json";
-        URL test = Main.class.getResource(path);
+        String path = "Puzzles/puzzles.json";
         BufferedReader bufferedReader = new BufferedReader(new FileReader(path));
 
         return new Gson().fromJson(bufferedReader, JSONPuzzles.class);
     }
 
     public JSONPuzzle getRandomPuzzle(){ //TODO change to random function
-            return puzzles[0];
+        Random r = new Random();
+        int random = r.nextInt(puzzles.length);
+        return puzzles[random];
     }
 
     public class JSONPuzzle {

@@ -6,15 +6,15 @@ import java.io.FileNotFoundException;
 
 
 public class MainMenu extends JPanel implements ActionListener{
+    static MainMenu self;
     private SudokuGrid currentGrid;
     private MenuButton classicButton;  //Buttons are referenced here first so the global actionListener can access them
     private MenuButton killerSudokuButton;
     private MenuButton duidokuButton;
-    private MainFrame root;
 
-    public MainMenu(MainFrame root){
+    public MainMenu(){
         super();
-        this.root = root;
+        self = this;
         instantiateMenu();
     }
 
@@ -31,21 +31,21 @@ public class MainMenu extends JPanel implements ActionListener{
         //Set up Layout
         GridBagLayout layout = new GridBagLayout();
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.fill = GridBagConstraints.BOTH; //tells the components how to resize if they need to
-        this.setLayout(layout);
+
+        setLayout(layout);
 
         gbc.ipadx=10; gbc.ipady=20;
 
         gbc.gridx = 0; gbc.gridy = 4; //changes the position of the button on the grid (x,y)
-        this.add(classicButton,gbc);
+        add(classicButton,gbc);
 
         gbc.gridx = 1; gbc.gridy = 4;
-        this.add(killerSudokuButton,gbc);
+        add(killerSudokuButton,gbc);
 
         gbc.gridx = 2; gbc.gridy = 4;
-        this.add(duidokuButton,gbc);
+        add(duidokuButton,gbc);
 
-        this.setVisible(true);
+        setVisible(true);
     }
 
     @Override
@@ -53,11 +53,11 @@ public class MainMenu extends JPanel implements ActionListener{
         MenuButton me = (MenuButton)e.getSource();
         if (me == classicButton) {
             try {
-                currentGrid = new ClassicGrid(this);
-                root.add((ClassicGrid)currentGrid);
+                currentGrid = new ClassicGrid();
+                MainFrame.self.add((ClassicGrid)currentGrid);
                 this.setVisible(false);
             } catch (FileNotFoundException ex) {
-                JOptionPane.showMessageDialog(root,"Puzzles file not found.\nMake sure there is a Puzzles" +
+                JOptionPane.showMessageDialog(MainFrame.self,"Puzzles file not found.\nMake sure there is a Puzzles" +
                         " folder in your directory","FUckedup",JOptionPane.ERROR_MESSAGE);
                 currentGrid=null;
             }

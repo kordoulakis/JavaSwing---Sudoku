@@ -18,8 +18,7 @@ public class ClassicController implements ActionListener, KeyListener {
     private MainMenu root;
     private int guessesToBeMade;
 
-    public ClassicController(ClassicGrid grid, MainMenu root) {
-        this.root = root;
+    public ClassicController(ClassicGrid grid) {
         errorCells = new ArrayList<>();
         parent = grid;
         puzzle = new Cell[9][9];
@@ -36,7 +35,7 @@ public class ClassicController implements ActionListener, KeyListener {
     public void createGrid(int rows, int columns) throws FileNotFoundException {
         JSONPuzzles JPuzzles = JSONPuzzles.deserializeFile();
         Integer currentNumberFromGrid;
-        JSONPuzzles.JSONPuzzle currentPuzzle = JPuzzles.getRandomPuzzle();
+        JSONPuzzles.JSONPuzzle currentPuzzle = JPuzzles.getRandomPuzzle(); //TODO Change this to static, don't want to have to load the puzzles every time ffs
         Integer[][] puzzleGrid = currentPuzzle.getGrid();
         for (int y = 0; y < columns; ++y)
             for (int x = 0; x < rows; ++x) {
@@ -89,8 +88,9 @@ public class ClassicController implements ActionListener, KeyListener {
                 selectedCell.setSelectable(false);
                 selectedCell.setBackground(Color.PINK);
                 selectedCell.setFilled(true);
+                currentSelectedCell = null;
                 if (guessesToBeMade == 0)
-                    JOptionPane.showMessageDialog(root, "CONGRATULATIONS, YOU MADE IT!");
+                    JOptionPane.showMessageDialog(MainFrame.self, "CONGRATULATIONS, YOU MADE IT!");
             }
         }
         else {
@@ -110,6 +110,9 @@ public class ClassicController implements ActionListener, KeyListener {
      * @variable errors An int to know if an errors has been found
      */
     public boolean isCorrect(Cell selectedCell, Integer userNumber, Cell[][] puzzle) { //TODO Add list of cells that interfere, paint them red
+        Thread t = new Thread();
+        t.start();
+
         int row = selectedCell.getPositionX();
         int column = selectedCell.getPositionY();
         int errors = 0;
@@ -233,20 +236,21 @@ public class ClassicController implements ActionListener, KeyListener {
      */
     @Override
     public void keyPressed(KeyEvent e) { //Takes the user input and assigns it to the selected Cell.
-        Character key = (Character) e.getKeyChar();
-        if (e.getKeyCode() == KeyEvent.VK_ESCAPE) { //If player presses the Escape key, it promts him to go back to MainMenu
-            Object[] f  = {"Yes", "No"};
-            int n = JOptionPane.showOptionDialog(parent, "Really Exit?", "Exit App", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE,null,f,f[1]);
-            if (n==0)
-                root.returnToMainMenu();
+            Character key = (Character) e.getKeyChar();
+            if (e.getKeyCode() == KeyEvent.VK_ESCAPE) { //If player presses the Escape key, it promts him to go back to MainMenu
+                Object[] f = {"Yes", "No"};
+                int n = JOptionPane.showOptionDialog(parent, "Really Exit?", "Exit App", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, null, f, f[1]);
+                if (n == 0)
+                    MainMenu.self.returnToMainMenu();
+            }
+            else if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE && currentSelectedCell!= null && currentSelectedCell.isSelectable())
+                currentSelectedCell.setText("");
+            if (isAcceptableInput(key) && currentSelectedCell != null)
+                setInputAtCell(key.toString(), currentSelectedCell, puzzle);
+            else
+                return;
         }
-        else if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE && currentSelectedCell.isSelectable())
-            currentSelectedCell.setText("");
-        if(isAcceptableInput(key) && currentSelectedCell != null)
-            setInputAtCell(key.toString(),currentSelectedCell, puzzle);
-        else
-            return;
-    }
+
     @Override
     public void keyReleased(KeyEvent e) {
 

@@ -3,6 +3,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class FrameMenuBar extends JMenuBar {
+    static FrameMenuBar self;
     private JMenu settings, language, user, help;
     private JMenuItem addNewUser, selectUser;
     private JMenuItem english, greek;
@@ -12,6 +13,7 @@ public class FrameMenuBar extends JMenuBar {
 
     public FrameMenuBar(){
         super();
+        self = this;
         //Add the menus
         gameSettings = new Settings();
         settings = new JMenu("Settings");
@@ -42,6 +44,8 @@ public class FrameMenuBar extends JMenuBar {
         //Set ActionListeners
         greek.addActionListener(menuItemListener);
         english.addActionListener(menuItemListener);
+        addNewUser.addActionListener(menuItemListener);
+        selectUser.addActionListener(menuItemListener);
 
         //Add multiple submenus
         help.add(showTips);
@@ -67,8 +71,14 @@ public class FrameMenuBar extends JMenuBar {
             if (command.equals("English") || command.equals("Greek")) {
                 gameSettings.changeLanguage(command);
             }
-            if (command.equals("Wordoku")) {
+            else if (command.equals("Wordoku")) {
                 gameSettings.changeRepresentation();
+            }
+            else if(command.equals("AddUser")){
+                gameSettings.addUser();
+            }
+            else if(command.equals("SelectUser")){
+                gameSettings.showUsersList();
             }
         }
     }
