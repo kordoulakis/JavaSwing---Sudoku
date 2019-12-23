@@ -1,9 +1,5 @@
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.security.Key;
 
 public class Cell extends JButton {
 
@@ -23,7 +19,7 @@ public class Cell extends JButton {
         setForeground(Color.BLACK);
         setBackground(Color.WHITE);
         setFocusPainted(false);
-        setFont(new Font("Helvetica",Font.BOLD,80));
+        setFont(new Font("Moderne Sans",Font.BOLD,80));
     }
 
     public void select(){ //Sets the current cell as selected

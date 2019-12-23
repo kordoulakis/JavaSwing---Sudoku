@@ -1,5 +1,3 @@
-import jdk.jfr.StackTrace;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -15,25 +13,31 @@ public class ClassicController implements ActionListener, KeyListener {
 
     public static ArrayList<Cell> errorCells;
     private Cell currentSelectedCell = null;
-    private Cell[][] puzzle; //The puzzle represented as a 2D array
+    private static Cell[][] puzzle; //The puzzle represented as a 2D array
     private ClassicGrid parent;
-    private JDialog escape = new JDialog();
-    private int escapes;
     private MainMenu root;
     private int guessesToBeMade;
 
-    public Controller(ClassicGrid grid, MainMenu root) {
+    public ClassicController(ClassicGrid grid, MainMenu root) {
         this.root = root;
-        escapes = 0;
         errorCells = new ArrayList<>();
         parent = grid;
         puzzle = new Cell[9][9];
         guessesToBeMade = 0;
     }
+
+    /***
+     * @definition This function creates a 9x9 grid of buttons and assigns them to our ClassicGrid
+     * @variable [JPuzzles] is the deserialized JSON file containing the puzzles for Classic mode
+     * @param rows Number of rows in the grid
+     * @param columns Number of columns in the grid
+     * @throws FileNotFoundException This is thrown because of JSON loading. Java likes to do it this way :)
+     */
     public void createGrid(int rows, int columns) throws FileNotFoundException {
-        JSONPuzzle Jpuzzle = JSONPuzzle.deserializePuzzle();
+        JSONPuzzles JPuzzles = JSONPuzzles.deserializeFile();
         Integer currentNumberFromGrid;
-        Integer[][] puzzleGrid = Jpuzzle.getGrid();
+        JSONPuzzles.JSONPuzzle currentPuzzle = JPuzzles.getRandomPuzzle();
+        Integer[][] puzzleGrid = currentPuzzle.getGrid();
         for (int y = 0; y < columns; ++y)
             for (int x = 0; x < rows; ++x) {
                 currentNumberFromGrid = puzzleGrid[y][x];
@@ -41,18 +45,18 @@ public class ClassicController implements ActionListener, KeyListener {
                 cell.addKeyListener(this); //reacts to key presses
                 cell.addActionListener(this); //reacts when clicked on
 
-                if(currentNumberFromGrid > 9) {
+                if (currentNumberFromGrid > 9) {
                     cell.setSelectable(false);
                     currentNumberFromGrid = currentNumberFromGrid / 10;
                     cell.setText(currentNumberFromGrid.toString());
                     cell.setUserNumber(currentNumberFromGrid);
-                }
-                else {
+                } else {
                     cell.setHiddenNumber(currentNumberFromGrid);
                     ++guessesToBeMade;
                     cell.setText("");
+                    cell.setForeground(new Color(120, 0, 200, 255));
                 }
-                    //cell.setText((test[y][x]).toString());
+                //cell.setText((test[y][x]).toString());
 
                 puzzle[x][y] = cell;
                 parent.add(cell, parent.getLayout());
@@ -99,19 +103,19 @@ public class ClassicController implements ActionListener, KeyListener {
     }
     /**
      * This function takes in a gridCell, the user's typed key and finds out if it can be placed on the board
-     * @param selectedCell The cell the user has clicked on.
-     * @param userNumber The user's input represented as int. This makes sure that it's an available character.
-     * @param puzzle The Array storing the whole Grid of Cells
-     * @variable errors An int to know if an errors has been found
+     * @variable selectedCell The cell the user has clicked on.
+     * @variable userNumber   The user's input represented as int. This makes sure that it's an available character.
+     * @variable puzzle       The Array storing the whole Grid of Cells
      * @return True if the user's input is valid.
+     * @variable errors An int to know if an errors has been found
      */
     public boolean isCorrect(Cell selectedCell, Integer userNumber, Cell[][] puzzle) { //TODO Add list of cells that interfere, paint them red
         int row = selectedCell.getPositionX();
         int column = selectedCell.getPositionY();
         int errors = 0;
 
-        for (int i=0; i<9; ++i) { //Checks the row and column of the cell for the same input.
-            if (puzzle[row][i].getNumber() == userNumber) {
+        for (int i = 0; i < 9; ++i) { //Checks the row and column of the cell for the same input.
+            if (puzzle[row][i].getText().equals(userNumber.toString())) {
                 errorCells.add(puzzle[row][i]);
                 ++errors;
             }
@@ -135,6 +139,7 @@ public class ClassicController implements ActionListener, KeyListener {
                 }
         return errors <= 0;
     }
+
     //Clears the array of Cells that are marked as errors for the user's previous input
     public void clearErrorCells() {
         if (!errorCells.isEmpty()) {
@@ -160,7 +165,41 @@ public class ClassicController implements ActionListener, KeyListener {
         Cell c = (Cell) e.getSource();
         if (c.isSelectable()) {
             setCurrentSelectedCell(c);
+            //if (FrameMenuBar.getShowTipsState()) { //TODO This works, make functions for the checking of rows and stuff, this is messy as fuck
+               // showTipsForCurrentCell(c);
+           // }
         }
+    }
+
+    public void showTipsForCurrentCell(Cell c){ //TODO DO THIS ANYWAY, SAVES TIME AND CHECK FOR ERRORS ONLY IF HASHSET DOESN'T CONTAIN THE USERINPUT
+        String[] numbers = {"1", "2", "3", "4", "5", "6", "7", "8", "9"};
+        HashSet<String> available = new HashSet<>(Arrays.asList(numbers));
+        HashSet<String> numbersA = new HashSet<>();
+        StringBuilder temp = new StringBuilder();
+        int row = c.getPositionX();
+        int column = c.getPositionY();
+
+        for (int i = 0; i < 9; ++i) { //Checks the row and column of the cell for the same input.
+            if (!puzzle[row][i].getText().equals("")) //not
+                numbersA.add(puzzle[row][i].getText());
+            if (!puzzle[i][column].getText().equals(""))
+                numbersA.add(puzzle[i][column].getText());
+        }
+        int puzzleRow = row - row % 3;
+        int puzzleColumn = column - column % 3;
+        for (int i = puzzleRow; i < puzzleRow + 3; i++)
+            for (int x = puzzleColumn; x < puzzleColumn + 3; x++)
+                if (!puzzle[i][x].getText().equals("")) //not
+                    numbersA.add(puzzle[i][x].getText());
+        for (String s : numbersA) {
+            available.remove(s);
+        }
+        for(String s : available) {
+            currentSelectedCell.setFont(new Font("Arial", Font.BOLD,20));
+            temp.append(s + " ");
+            currentSelectedCell.setText(temp.toString());
+        }
+        System.out.println();
     }
     public void setCurrentSelectedCell(Cell cell) {
 

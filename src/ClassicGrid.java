@@ -7,15 +7,15 @@ import java.io.FileNotFoundException;
  */
 public class ClassicGrid extends JPanel implements SudokuGrid{
     private GridLayout layout;
-    private Controller controller;
+    private ClassicController classicController;
 
     public ClassicGrid(MainMenu root) throws FileNotFoundException {
         super();
         layout = new GridLayout(9, 9);
         setLayout(layout);
         setVisible(true);
-        controller = new Controller(this,root);
-        controller.createGrid(9,9);
+        classicController = new ClassicController(this,root);
+        classicController.createGrid(9,9);
     }
 
     @Override
