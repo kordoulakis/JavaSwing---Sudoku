@@ -7,13 +7,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
+import java.util.*;
 
-public class Controller implements ActionListener, KeyListener {
-    private LinkedList<String> availableLetters;
-    private LinkedList<String> availableNumbers;
+public class ClassicController implements ActionListener, KeyListener {
+    private LinkedList<String> availableLetters = new LinkedList<>(Arrays.asList("A", "B", "C", "D", "E", "F", "G", "H", "I"));
+    private LinkedList<String> availableNumbers = new LinkedList<>(Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9"));
+
     public static ArrayList<Cell> errorCells;
     private Cell currentSelectedCell = null;
     private Cell[][] puzzle; //The puzzle represented as a 2D array
@@ -29,9 +28,7 @@ public class Controller implements ActionListener, KeyListener {
         errorCells = new ArrayList<>();
         parent = grid;
         puzzle = new Cell[9][9];
-
         guessesToBeMade = 0;
-        fillHashsets();
     }
     public void createGrid(int rows, int columns) throws FileNotFoundException {
         JSONPuzzle Jpuzzle = JSONPuzzle.deserializePuzzle();
@@ -63,29 +60,41 @@ public class Controller implements ActionListener, KeyListener {
         paintBorders();
     }
 
-    public void handleUserInput(String userInput, int userInputAsInt, Cell selectedCell, Cell puzzle[][]) {
-        if (availableNumbers.contains(userInput) || availableLetters.contains(userInput)) {  //TODO Have only one hashset, no need for 2, just use a settings option for it.
-            if (userInput.equals(selectedCell.getText()))
-                return;
-            clearErrorCells();
-            if (isCorrect(selectedCell, userInputAsInt, puzzle)) {
-                //selectedCell.setUserNumber(userInputAsInt);
-                selectedCell.setBackground(Color.ORANGE);
+    public void setInputAtCell(String userInput, Cell selectedCell, Cell puzzle[][]) { //TODO Have only one hashset, no need for 2, just use a settings option for it.
+        userInput = userInput.toUpperCase();
+        if (userInput.equals(selectedCell.getText()))
+            return;
+        selectedCell.setBackground(Color.ORANGE);
+        clearErrorCells();
+        Integer userInputAsInt=0;
+        if (availableLetters.contains(userInput)) {
+            userInputAsInt = availableLetters.indexOf(userInput) + 1;;
+        }
+        else
+            userInputAsInt = Integer.parseInt(userInput);
+
+        if (isCorrect(selectedCell, userInputAsInt, puzzle)) {
+            if(Settings.getPuzzleRepresentation().equals("Numbers"))
+                selectedCell.setText(userInputAsInt.toString());
+            else
                 selectedCell.setText(userInput);
 
-                if (userInputAsInt == selectedCell.getHiddenNumber()) { //TODO Security breach, if you change between the correct number and a wrong one it still counts it.
-                    guessesToBeMade = guessesToBeMade - 1;
-                    System.out.println(guessesToBeMade);
-                    if(guessesToBeMade==0)
-                        System.out.println("Congratulations, you made it!");
-                }
+            selectedCell.setUserNumber(userInputAsInt);
+            if (userInputAsInt == selectedCell.getHiddenNumber()) {
+                guessesToBeMade = guessesToBeMade - 1;
+                selectedCell.setSelectable(false);
+                selectedCell.setBackground(Color.PINK);
+                selectedCell.setFilled(true);
+                if (guessesToBeMade == 0)
+                    JOptionPane.showMessageDialog(root, "CONGRATULATIONS, YOU MADE IT!");
             }
-            else {
-                for (Cell errorCell : errorCells)
-                    errorCell.paintUserError();
-                selectedCell.setBackground(Color.RED);
-                selectedCell.setText("");
+        }
+        else {
+            for (Cell errorCell : errorCells) {
+                errorCell.paintUserError();
             }
+            selectedCell.setBackground(Color.RED);
+            selectedCell.setText("");
         }
     }
     /**
@@ -96,7 +105,7 @@ public class Controller implements ActionListener, KeyListener {
      * @variable errors An int to know if an errors has been found
      * @return True if the user's input is valid.
      */
-    public boolean isCorrect(Cell selectedCell, int userNumber, Cell[][] puzzle) { //TODO Add list of cells that interfere, paint them red
+    public boolean isCorrect(Cell selectedCell, Integer userNumber, Cell[][] puzzle) { //TODO Add list of cells that interfere, paint them red
         int row = selectedCell.getPositionX();
         int column = selectedCell.getPositionY();
         int errors = 0;
@@ -105,14 +114,10 @@ public class Controller implements ActionListener, KeyListener {
             if (puzzle[row][i].getNumber() == userNumber) {
                 errorCells.add(puzzle[row][i]);
                 ++errors;
-                break;
             }
-        }
-        for (int i=0; i<9; ++i){
-            if (puzzle[i][column].getNumber() == userNumber) {
+            if (puzzle[i][column].getText().equals(userNumber.toString())) {
                 errorCells.add(puzzle[i][column]);
                 ++errors;
-                break;
             }
         }
         /***
@@ -124,34 +129,30 @@ public class Controller implements ActionListener, KeyListener {
         int puzzleColumn = column - column % 3;
         for (int i = puzzleRow; i < puzzleRow + 3; i++)
             for (int x = puzzleColumn; x < puzzleColumn + 3; x++)
-                if (puzzle[i][x].getNumber() == userNumber) {
+                if (puzzle[i][x].getText().equals(userNumber.toString())) {
                     errorCells.add(puzzle[i][x]);
                     ++errors;
-                    break;
                 }
-
-        if (errors>0)
-            return false;
-        else
-            return true;
-        //return !existsInColumn(column, userNumber, puzzle) && !existsInRow(row, userNumber, puzzle) && !existsInArea(row, column, userNumber, puzzle);
+        return errors <= 0;
     }
     //Clears the array of Cells that are marked as errors for the user's previous input
     public void clearErrorCells() {
         if (!errorCells.isEmpty()) {
             for (Cell cell : errorCells)
-                cell.clearUserError();
+                if(cell.isFilled())
+                    cell.setBackground(Color.PINK);
+                else
+                    cell.clearUserError();
             errorCells.clear();
         }
     }
-    /***
-     * @variable letters,numbers: The available sets for characters while playing.
-     */
-    public void fillHashsets() { //Have to hard code the available options, no real way out of it
-        String[] letters = {"A", "B", "C", "D", "E", "F", "G", "H", "I"};
-        String[] numbers = {"1", "2", "3", "4", "5", "6", "7", "8", "9"};
-        availableLetters = new LinkedList<>(Arrays.asList(letters));
-        availableNumbers = new LinkedList<>(Arrays.asList(numbers));
+
+    public boolean isAcceptableInput(Character input){
+        if (availableLetters.contains(input.toString().toUpperCase()))
+            return true;
+        if (availableNumbers.contains(input.toString()))
+            return true;
+        return false;
     }
 
     @Override
@@ -162,43 +163,51 @@ public class Controller implements ActionListener, KeyListener {
         }
     }
     public void setCurrentSelectedCell(Cell cell) {
+
         if (currentSelectedCell != null && currentSelectedCell == cell)
             return;
         else
             clearErrorCells();
         if (currentSelectedCell == null) {
             currentSelectedCell = cell;
-            currentSelectedCell.select(); }
+            currentSelectedCell.select();
+        }
         else {
-            currentSelectedCell.deSelect();
-            currentSelectedCell = cell;
-            currentSelectedCell.select(); }
+            //This checks if the cell has already been filled with the correct number
+            if(currentSelectedCell.getBackground() == Color.PINK) { //TODO Maybe don't keep this
+                currentSelectedCell = cell;
+                currentSelectedCell.select();
+                return;
+            }
+            else {
+                currentSelectedCell.deSelect();
+                currentSelectedCell = cell;
+                currentSelectedCell.select();
+            }
+
+        }
     }
 
+    /***
+     *
+     * @param e The typed key.
+     */
     @Override
     public void keyPressed(KeyEvent e) { //Takes the user input and assigns it to the selected Cell.
         Character key = (Character) e.getKeyChar();
-        if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-            ++escapes;
-            if (escapes>1){
+        if (e.getKeyCode() == KeyEvent.VK_ESCAPE) { //If player presses the Escape key, it promts him to go back to MainMenu
+            Object[] f  = {"Yes", "No"};
+            int n = JOptionPane.showOptionDialog(parent, "Really Exit?", "Exit App", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE,null,f,f[1]);
+            if (n==0)
                 root.returnToMainMenu();
-            }
         }
-        String userInput = key.toString().toUpperCase();
-        int userInputAsInt=0;
-        //Prevention against special characters such as caps lock etc.
-        try {
-            userInputAsInt = Integer.parseInt(userInput);
-            System.out.println(userInputAsInt);
-        } catch (NumberFormatException n) {
-            System.out.println("Caught number exception" + n);
+        else if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE && currentSelectedCell.isSelectable())
+            currentSelectedCell.setText("");
+        if(isAcceptableInput(key) && currentSelectedCell != null)
+            setInputAtCell(key.toString(),currentSelectedCell, puzzle);
+        else
             return;
-        }
-
-        if (currentSelectedCell != null)
-            handleUserInput(userInput, userInputAsInt, currentSelectedCell, puzzle);
     }
-
     @Override
     public void keyReleased(KeyEvent e) {
 
@@ -223,5 +232,4 @@ public class Controller implements ActionListener, KeyListener {
         puzzle[5][2].setBorder(BorderFactory.createMatteBorder(1, 1, 5, 5, Color.DARK_GRAY));
         puzzle[5][5].setBorder(BorderFactory.createMatteBorder(1, 1, 5, 5, Color.DARK_GRAY));
     }
-
 }
