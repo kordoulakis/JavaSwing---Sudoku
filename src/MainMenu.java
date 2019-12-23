@@ -54,11 +54,13 @@ public class MainMenu extends JPanel implements ActionListener{
         if (me == classicButton) {
             try {
                 currentGrid = new ClassicGrid(this);
+                root.add((ClassicGrid)currentGrid);
+                this.setVisible(false);
             } catch (FileNotFoundException ex) {
-                ex.printStackTrace();
+                JOptionPane.showMessageDialog(root,"Puzzles file not found.\nMake sure there is a Puzzles" +
+                        " folder in your directory","FUckedup",JOptionPane.ERROR_MESSAGE);
+                currentGrid=null;
             }
-            root.add((ClassicGrid)currentGrid);
-            this.setVisible(false);
         }
         else if (e.getSource() == killerSudokuButton)
             ;
