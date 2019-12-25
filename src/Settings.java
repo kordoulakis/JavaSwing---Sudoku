@@ -1,16 +1,26 @@
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
+import java.io.FileNotFoundException;
 
 
 public class Settings {
     private static String language;
     private static String puzzleRepresentation;
+    private Users currentUsersList;
+    private Users.User currentUser;
+
     private boolean showTips;
 
     public Settings() {
         language = "English";
         puzzleRepresentation = "Numbers";
+        try { //If the file is deleted or doesn't exist, it creates a new Users Object off that.
+            currentUsersList = Users.loadFile();
+            currentUser = currentUsersList.getList().get(0);
+        }
+        catch (FileNotFoundException n){
+            currentUsersList = new Users();
+        }
     }
 
     public void changeLanguage(String language) {
@@ -32,25 +42,31 @@ public class Settings {
         return language;
     }
 
-    public void showUsersList(){ //TODO Get from JSON, better styling for this, maybe radiobuttons?
-        ArrayList<Users.User> currentUsers = Users.users;
+    public void showUsersList(){
         JFrame f = new JFrame();
         f.setVisible(true);
         f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         f.setLayout(new FlowLayout());
         f.setSize(400,400);
-        for (Users.User u : currentUsers){
+        for (Users.User u : currentUsersList.getList()){
             System.out.println(u.getUsername());
-            f.add(new JButton(u.getUsername()));
+            f.add(new SelectUserButton(u.getUsername()));
         }
     }
     public void addUser() {
-        try {
             String newUser = JOptionPane.showInputDialog(MainFrame.self, "Username:", "Add New User", JOptionPane.QUESTION_MESSAGE);
             if(!newUser.isEmpty()) {
-                Users.users.add(new Users.User(newUser));
+                currentUser = new Users.User(newUser);
+                currentUser.addSolvedClassicPuzzleToArraylist(1);
+                currentUsersList.addToList(currentUser);
+                Users.serializeAndWriteFile(currentUsersList);
             }
-        } catch (NullPointerException n) { }
+            else
+                System.err.println("Null string, evaded");
+    }
+
+    public void changeUser(){
+
     }
 
     public void setShowTips() {
