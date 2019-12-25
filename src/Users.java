@@ -11,17 +11,10 @@ public class Users {
 
     }
 
-    public int getSizeOfList() {
-        return users.size();
-    }
-
     public ArrayList<User> getList() {
         return users;
     }
 
-    public static void main(String[] args) {
-        serializeAndWriteFile(new Users());
-    }
 
     public static Users loadFile() throws FileNotFoundException {
         Gson gson = new Gson();
@@ -36,7 +29,6 @@ public class Users {
             Gson gson = new GsonBuilder().create();
             gson.toJson(users);
             writer.write(gson.toJson(users));
-
         } catch (IOException e) {
             e.printStackTrace();
         }

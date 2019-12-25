@@ -1,7 +1,10 @@
 import com.google.gson.Gson;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 /***
@@ -14,7 +17,7 @@ public class JSONPuzzles {
     private JSONPuzzle[] puzzles;
 
     public JSONPuzzles(){
-        puzzles = new JSONPuzzle[2];
+        puzzles = new JSONPuzzle[10];
     }
 
     /***
@@ -30,10 +33,19 @@ public class JSONPuzzles {
         return new Gson().fromJson(bufferedReader, JSONPuzzles.class);
     }
 
-    public JSONPuzzle getRandomPuzzle(){
+    public JSONPuzzle getRandomClassicPuzzle(){
+        ArrayList<Integer> completedPuzzles = Settings.getUserClassicPuzzles();
+        ArrayList<Integer> availablePuzzles = new ArrayList<>(Arrays.asList(1,2,3,4,5,6,7,8,9,10));
+        availablePuzzles.removeAll(completedPuzzles);
         Random r = new Random();
-        int random = r.nextInt(puzzles.length);
-        return puzzles[random];
+        int random = -1;
+        if (availablePuzzles.size()>0) {
+            random = r.nextInt(availablePuzzles.size());
+            return puzzles[availablePuzzles.get(random)-1];
+        }
+        //TODO check for nulls higher in the codebase
+        return null; //This handles in case the user has solved all puzzles
+
     }
 
     public static class JSONPuzzle {

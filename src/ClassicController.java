@@ -17,6 +17,7 @@ public class ClassicController implements ActionListener, KeyListener {
     private ClassicGrid parent;
     private MainMenu root;
     private int guessesToBeMade;
+    private JSONPuzzles.JSONPuzzle currentPuzzle;
 
     public ClassicController(ClassicGrid grid) {
         errorCells = new ArrayList<>();
@@ -35,7 +36,7 @@ public class ClassicController implements ActionListener, KeyListener {
     public boolean createGrid(int rows, int columns) throws FileNotFoundException {
         JSONPuzzles JPuzzles = JSONPuzzles.deserializeFile();
         Integer currentNumberFromGrid;
-        JSONPuzzles.JSONPuzzle currentPuzzle = JPuzzles.getRandomPuzzle(); //TODO Change this to static, don't want to have to load the puzzles every time ffs
+        currentPuzzle = JPuzzles.getRandomClassicPuzzle(); //TODO Change this to static, don't want to have to load the puzzles every time ffs
         Integer[][] puzzleGrid = currentPuzzle.getGrid();
         for (int y = 0; y < columns; ++y)
             for (int x = 0; x < rows; ++x) {
@@ -73,7 +74,6 @@ public class ClassicController implements ActionListener, KeyListener {
         Integer userInputAsInt = 0;
         if (availableLetters.contains(userInput)) {
             userInputAsInt = availableLetters.indexOf(userInput) + 1;
-            ;
         } else
             userInputAsInt = Integer.parseInt(userInput);
 
@@ -90,8 +90,13 @@ public class ClassicController implements ActionListener, KeyListener {
                 selectedCell.setBackground(Color.PINK);
                 selectedCell.setFilled(true);
                 currentSelectedCell = null;
-                if (guessesToBeMade == 0)
+                if (guessesToBeMade == 0) {
                     JOptionPane.showMessageDialog(MainFrame.self, "CONGRATULATIONS, YOU MADE IT!");
+                    Users.User user = Settings.getCurrentUser();
+                    user.addSolvedClassicPuzzleToArraylist(currentPuzzle.getId());
+                    Users.serializeAndWriteFile(Settings.getCurrentUsersList());
+                    MainMenu.self.returnToMainMenu();
+                }
                 return true;
             }
         } else {

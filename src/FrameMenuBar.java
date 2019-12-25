@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 
 public class FrameMenuBar extends JMenuBar {
     static FrameMenuBar self;
@@ -11,7 +12,7 @@ public class FrameMenuBar extends JMenuBar {
     private Settings gameSettings;
 
 
-    public FrameMenuBar(){
+    public FrameMenuBar() throws FileNotFoundException {
         super();
         self = this;
         //Add the menus
