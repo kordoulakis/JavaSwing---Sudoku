@@ -17,9 +17,9 @@ public class ClassicController implements ActionListener, KeyListener {
     private ClassicGrid parent;
     private MainMenu root;
     private int guessesToBeMade;
+    private JSONPuzzles.JSONPuzzle currentPuzzle;
 
-    public ClassicController(ClassicGrid grid, MainMenu root) {
-        this.root = root;
+    public ClassicController(ClassicGrid grid) {
         errorCells = new ArrayList<>();
         parent = grid;
         puzzle = new Cell[9][9];
@@ -33,10 +33,10 @@ public class ClassicController implements ActionListener, KeyListener {
      * @param columns Number of columns in the grid
      * @throws FileNotFoundException This is thrown because of JSON loading. Java likes to do it this way :)
      */
-    public void createGrid(int rows, int columns) throws FileNotFoundException {
+    public boolean createGrid(int rows, int columns) throws FileNotFoundException {
         JSONPuzzles JPuzzles = JSONPuzzles.deserializeFile();
         Integer currentNumberFromGrid;
-        JSONPuzzles.JSONPuzzle currentPuzzle = JPuzzles.getRandomPuzzle();
+        currentPuzzle = JPuzzles.getRandomClassicPuzzle(); //TODO Change this to static, don't want to have to load the puzzles every time ffs
         Integer[][] puzzleGrid = currentPuzzle.getGrid();
         for (int y = 0; y < columns; ++y)
             for (int x = 0; x < rows; ++x) {
@@ -62,23 +62,23 @@ public class ClassicController implements ActionListener, KeyListener {
                 parent.add(cell, parent.getLayout());
             }
         paintBorders();
+        return true;
     }
 
-    public void setInputAtCell(String userInput, Cell selectedCell, Cell puzzle[][]) { //TODO Have only one hashset, no need for 2, just use a settings option for it.
+    public boolean setInputAtCell(String userInput, Cell selectedCell, Cell puzzle[][]) { //TODO Have only one hashset, no need for 2, just use a settings option for it.
         userInput = userInput.toUpperCase();
         if (userInput.equals(selectedCell.getText()))
-            return;
+            return false;
         selectedCell.setBackground(Color.ORANGE);
         clearErrorCells();
-        Integer userInputAsInt=0;
+        Integer userInputAsInt = 0;
         if (availableLetters.contains(userInput)) {
-            userInputAsInt = availableLetters.indexOf(userInput) + 1;;
-        }
-        else
+            userInputAsInt = availableLetters.indexOf(userInput) + 1;
+        } else
             userInputAsInt = Integer.parseInt(userInput);
 
         if (isCorrect(selectedCell, userInputAsInt, puzzle)) {
-            if(Settings.getPuzzleRepresentation().equals("Numbers"))
+            if (Settings.getPuzzleRepresentation().equals("Numbers"))
                 selectedCell.setText(userInputAsInt.toString());
             else
                 selectedCell.setText(userInput);
@@ -89,27 +89,39 @@ public class ClassicController implements ActionListener, KeyListener {
                 selectedCell.setSelectable(false);
                 selectedCell.setBackground(Color.PINK);
                 selectedCell.setFilled(true);
-                if (guessesToBeMade == 0)
-                    JOptionPane.showMessageDialog(root, "CONGRATULATIONS, YOU MADE IT!");
+                currentSelectedCell = null;
+                if (guessesToBeMade == 0) {
+                    JOptionPane.showMessageDialog(MainFrame.self, "CONGRATULATIONS, YOU MADE IT!");
+                    Users.User user = Settings.getCurrentUser();
+                    user.addSolvedClassicPuzzleToArraylist(currentPuzzle.getId());
+                    Users.serializeAndWriteFile(Settings.getCurrentUsersList());
+                    MainMenu.self.returnToMainMenu();
+                }
+                return true;
             }
-        }
-        else {
+        } else {
             for (Cell errorCell : errorCells) {
                 errorCell.paintUserError();
             }
             selectedCell.setBackground(Color.RED);
             selectedCell.setText("");
         }
+        return false;
     }
+
     /**
      * This function takes in a gridCell, the user's typed key and finds out if it can be placed on the board
+     *
+     * @return True if the user's input is valid.
      * @variable selectedCell The cell the user has clicked on.
      * @variable userNumber   The user's input represented as int. This makes sure that it's an available character.
      * @variable puzzle       The Array storing the whole Grid of Cells
-     * @return True if the user's input is valid.
      * @variable errors An int to know if an errors has been found
      */
     public boolean isCorrect(Cell selectedCell, Integer userNumber, Cell[][] puzzle) { //TODO Add list of cells that interfere, paint them red
+        Thread t = new Thread();
+        t.start();
+
         int row = selectedCell.getPositionX();
         int column = selectedCell.getPositionY();
         int errors = 0;
@@ -144,7 +156,7 @@ public class ClassicController implements ActionListener, KeyListener {
     public void clearErrorCells() {
         if (!errorCells.isEmpty()) {
             for (Cell cell : errorCells)
-                if(cell.isFilled())
+                if (cell.isFilled())
                     cell.setBackground(Color.PINK);
                 else
                     cell.clearUserError();
@@ -152,7 +164,7 @@ public class ClassicController implements ActionListener, KeyListener {
         }
     }
 
-    public boolean isAcceptableInput(Character input){
+    public boolean isAcceptableInput(Character input) {
         if (availableLetters.contains(input.toString().toUpperCase()))
             return true;
         if (availableNumbers.contains(input.toString()))
@@ -166,12 +178,12 @@ public class ClassicController implements ActionListener, KeyListener {
         if (c.isSelectable()) {
             setCurrentSelectedCell(c);
             //if (FrameMenuBar.getShowTipsState()) { //TODO This works, make functions for the checking of rows and stuff, this is messy as fuck
-               // showTipsForCurrentCell(c);
-           // }
+            // showTipsForCurrentCell(c);
+            // }
         }
     }
 
-    public void showTipsForCurrentCell(Cell c){ //TODO DO THIS ANYWAY, SAVES TIME AND CHECK FOR ERRORS ONLY IF HASHSET DOESN'T CONTAIN THE USERINPUT
+    public void showTipsForCurrentCell(Cell c) { //TODO DO THIS ANYWAY, SAVES TIME AND CHECK FOR ERRORS ONLY IF HASHSET DOESN'T CONTAIN THE USERINPUT
         String[] numbers = {"1", "2", "3", "4", "5", "6", "7", "8", "9"};
         HashSet<String> available = new HashSet<>(Arrays.asList(numbers));
         HashSet<String> numbersA = new HashSet<>();
@@ -194,13 +206,14 @@ public class ClassicController implements ActionListener, KeyListener {
         for (String s : numbersA) {
             available.remove(s);
         }
-        for(String s : available) {
-            currentSelectedCell.setFont(new Font("Arial", Font.BOLD,20));
+        for (String s : available) {
+            currentSelectedCell.setFont(new Font("Arial", Font.BOLD, 20));
             temp.append(s + " ");
             currentSelectedCell.setText(temp.toString());
         }
         System.out.println();
     }
+
     public void setCurrentSelectedCell(Cell cell) {
 
         if (currentSelectedCell != null && currentSelectedCell == cell)
@@ -210,15 +223,13 @@ public class ClassicController implements ActionListener, KeyListener {
         if (currentSelectedCell == null) {
             currentSelectedCell = cell;
             currentSelectedCell.select();
-        }
-        else {
+        } else {
             //This checks if the cell has already been filled with the correct number
-            if(currentSelectedCell.getBackground() == Color.PINK) { //TODO Maybe don't keep this
+            if (currentSelectedCell.getBackground() == Color.PINK) { //TODO Maybe don't keep this
                 currentSelectedCell = cell;
                 currentSelectedCell.select();
                 return;
-            }
-            else {
+            } else {
                 currentSelectedCell.deSelect();
                 currentSelectedCell = cell;
                 currentSelectedCell.select();
@@ -235,26 +246,28 @@ public class ClassicController implements ActionListener, KeyListener {
     public void keyPressed(KeyEvent e) { //Takes the user input and assigns it to the selected Cell.
         Character key = (Character) e.getKeyChar();
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE) { //If player presses the Escape key, it promts him to go back to MainMenu
-            Object[] f  = {"Yes", "No"};
-            int n = JOptionPane.showOptionDialog(parent, "Really Exit?", "Exit App", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE,null,f,f[1]);
-            if (n==0)
-                root.returnToMainMenu();
-        }
-        else if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE && currentSelectedCell.isSelectable())
+            Object[] f = {"Yes", "No"};
+            int n = JOptionPane.showOptionDialog(parent, "Really Exit?", "Exit App", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, null, f, f[1]);
+            if (n == 0)
+                MainMenu.self.returnToMainMenu();
+        } else if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE && currentSelectedCell != null && currentSelectedCell.isSelectable())
             currentSelectedCell.setText("");
-        if(isAcceptableInput(key) && currentSelectedCell != null)
-            setInputAtCell(key.toString(),currentSelectedCell, puzzle);
+        if (isAcceptableInput(key) && currentSelectedCell != null)
+            setInputAtCell(key.toString(), currentSelectedCell, puzzle);
         else
             return;
     }
+
     @Override
     public void keyReleased(KeyEvent e) {
 
     }
+
     @Override
     public void keyTyped(KeyEvent e) {
 
     }
+
     //Paints the borders of the appropriate cells on the board for visual clarity.
     private void paintBorders() {  //TODO Maybe make this not like this? Not elegant, but it works
         for (int i = 0; i < 9; ++i)
@@ -270,5 +283,21 @@ public class ClassicController implements ActionListener, KeyListener {
         puzzle[2][5].setBorder(BorderFactory.createMatteBorder(1, 1, 5, 5, Color.DARK_GRAY));
         puzzle[5][2].setBorder(BorderFactory.createMatteBorder(1, 1, 5, 5, Color.DARK_GRAY));
         puzzle[5][5].setBorder(BorderFactory.createMatteBorder(1, 1, 5, 5, Color.DARK_GRAY));
+    }
+
+    public Cell getCellAtCoordinates(int x, int y) {
+        return puzzle[x][y];
+    }
+
+    public Cell[][] getPuzzle() {
+        return puzzle;
+    }
+
+    public Cell getSelectableCellOnGrid() {
+        for (int i = 0; i < 9; ++i)
+            for (int x = 0; x < 9; ++x)
+                if (puzzle[i][x].isSelectable())
+                    return puzzle[i][x];
+        return null;
     }
 }
