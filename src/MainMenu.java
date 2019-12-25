@@ -52,7 +52,7 @@ public class MainMenu extends JPanel implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         MenuButton me = (MenuButton)e.getSource();
         if (me == classicButton) {
-            try {
+            try { //TODO Move this to the whole method, one try for everything
                 currentGrid = new ClassicGrid();
                 MainFrame.self.add((ClassicGrid)currentGrid);
                 this.setVisible(false);
