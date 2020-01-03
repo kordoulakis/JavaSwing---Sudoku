@@ -12,7 +12,7 @@ public class MainMenu extends JPanel implements ActionListener{
     private MenuButton killerSudokuButton;
     private MenuButton duidokuButton;
 
-    public MainMenu(){
+    public MainMenu(){ //TODO transfer puzzle loading here, do it once for the whole instance of the game
         super();
         self = this;
         instantiateMenu();
@@ -53,9 +53,10 @@ public class MainMenu extends JPanel implements ActionListener{
         MenuButton me = (MenuButton)e.getSource();
         if (me == classicButton) {
             try { //TODO Move this to the whole method, one try for everything
-                currentGrid = new ClassicGrid();
+                currentGrid = new ClassicGrid(); //TODO Fix this please
                 MainFrame.self.add((ClassicGrid)currentGrid);
-                this.setVisible(false);
+                setVisible(false); //TODO THIS is the problem when there are no more puzzles to solve
+                Settings.setCurrentGrid(currentGrid);
             } catch (FileNotFoundException ex) {
                 JOptionPane.showMessageDialog(MainFrame.self,"Puzzles file not found.\nMake sure there is a Puzzles" +
                         " folder in your directory","FUckedup",JOptionPane.ERROR_MESSAGE);
@@ -69,10 +70,16 @@ public class MainMenu extends JPanel implements ActionListener{
         System.out.println("ActionListener worked, source: "+me.getText());
     }
 
+
     public void returnToMainMenu(){
-        currentGrid.setVisibility(false);
-        currentGrid = null;
-        this.setVisible(true);
+        try {
+            currentGrid.setVisibility(false);
+            currentGrid = null;
+        }
+        catch(NullPointerException n){;}
+
+        setVisible(true);
+
     }
 
 }

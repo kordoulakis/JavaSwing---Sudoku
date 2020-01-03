@@ -10,6 +10,7 @@ public class Settings {
     private static Users currentUsersList;
     private static Users.User currentUser;
     private static JFrame changeUserFrame;
+    private static SudokuGrid currentGrid;
     private boolean showTips;
 
     public Settings() throws FileNotFoundException {
@@ -24,21 +25,28 @@ public class Settings {
             currentUser = new Users.User("Anonymous");
         }
     }
-
+    public static void setCurrentGrid(SudokuGrid grid) { currentGrid = grid; }
     public void changeLanguage(String language) {
         this.language = language;
     }
 
     public static void changeRepresentation() {
+        System.out.println("WHAS THE FUCK");
         if (puzzleRepresentation.equals("Numbers"))
             puzzleRepresentation = "Letters";
         else
             puzzleRepresentation = "Numbers";
+        if (currentGrid!=null) {
+            System.out.println("Present: "+puzzleRepresentation);
+            currentGrid.getController().changeRepresentation();
+        }
     }
 
     public static String getPuzzleRepresentation() {
         return puzzleRepresentation;
     }
+
+
 
     public static ArrayList<Integer> getUserClassicPuzzles(){ return currentUser.getSolvedClassicPuzzles(); }
     public static String getLanguage() {

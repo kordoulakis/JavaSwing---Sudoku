@@ -15,15 +15,24 @@ public class ClassicGrid extends JPanel implements SudokuGrid{
         setLayout(layout);
         setVisible(true);
         classicController = new ClassicController(this);
-        classicController.createGrid(9,9);
+        if(classicController.createGrid(9,9))
+        ;
+        else
+        {
+            System.err.println("Failure to create grid");
+            setVisible(false);
+            MainMenu.self.returnToMainMenu();
+        }
     }
 
     @Override
     public void setVisibility(boolean visible) {
         setVisible(visible);
     }
+
+
     public boolean getVisibility(){ return isVisible(); }
-    public ClassicController getController(){ return classicController; }
+    public GridController getController(){ return classicController; }
 
 }
 

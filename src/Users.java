@@ -4,6 +4,14 @@ import com.google.gson.GsonBuilder;
 import java.io.*;
 import java.util.ArrayList;
 
+/***
+ * @Class_Definition
+ * This class represents the user's data
+ * Users acts as an @ArrayList of user objects and allows it to dynamically change through the buttons inside the
+ * Settings class.
+ * User is an inner class that stores each individual user's data and each one is created at runtime when loading the
+ * appropriate JSONPuzzles files from the game's directory.
+ */
 public class Users {
     private ArrayList<User> users = new ArrayList<>();
 
