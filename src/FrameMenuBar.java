@@ -35,7 +35,7 @@ public class FrameMenuBar extends JMenuBar {
         english = new JMenuItem("English");
         english.setActionCommand("English");
 
-        addNewUser = new JMenuItem("Add new User"); //TODO Get users from JSON and add appropriate amount of MenuItems
+        addNewUser = new JMenuItem("Add new User");
         addNewUser.setActionCommand("AddUser");
         selectUser = new JMenuItem("Select User");
         selectUser.setActionCommand("SelectUser");

@@ -32,11 +32,16 @@ public class JSONPuzzles {
 
         return new Gson().fromJson(bufferedReader, JSONPuzzles.class);
     }
-
-    public JSONPuzzle getRandomClassicPuzzle(){
+    public ArrayList<Integer> getAvailablePuzzles(){
         ArrayList<Integer> completedPuzzles = Settings.getUserClassicPuzzles();
-        ArrayList<Integer> availablePuzzles = new ArrayList<>(Arrays.asList(1,2,3,4,5,6,7,8,9,10));
-        availablePuzzles.removeAll(completedPuzzles);
+        ArrayList<Integer> temp = new ArrayList<>(Arrays.asList(1,2,3,4,5,6,7,8,9,10));
+        temp.removeAll(completedPuzzles);
+        if (!temp.isEmpty())
+            return temp;
+        else
+            return null;
+    }
+    public JSONPuzzle getRandomClassicPuzzle(ArrayList<Integer> availablePuzzles){
         Random r = new Random();
         int random = -1;
         if (availablePuzzles.size()>0) {
