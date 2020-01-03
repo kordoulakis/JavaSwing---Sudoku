@@ -69,6 +69,11 @@ public class ClassicController implements GridController,ActionListener, KeyList
                 puzzle[x][y] = cell;
                 parent.add(cell, parent.getLayout());
             }
+        for (int y = 0; y < columns; ++y)
+            for (int x = 0; x < rows; ++x) {
+                if (puzzle[x][y].isSelectable())
+                    setInputAtCell(Integer.toString(puzzle[x][y].getHiddenNumber()),puzzle[x][y],puzzle);
+            }
         paintBorders();
         return true;
     }
