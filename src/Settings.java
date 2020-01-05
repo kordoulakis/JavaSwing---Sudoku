@@ -11,9 +11,9 @@ public class Settings {
     private static Users.User currentUser;
     private static JFrame changeUserFrame;
     private static SudokuGrid currentGrid;
-    private boolean showTips;
+    private static boolean showTips;
 
-    public Settings() throws FileNotFoundException {
+    public Settings(){
         language = "English";
         puzzleRepresentation = "Numbers";
         try { //If the file is deleted or doesn't exist, it creates a new Users Object off that.
@@ -87,10 +87,8 @@ public class Settings {
     }
 
 
-    public void setShowTips() {
-    }
-
-    public boolean getShowTipsValue() {
+    public static void setShowTips() { showTips = !showTips; }
+    public static boolean getShowTipsValue() {
         return showTips;
     }
 
