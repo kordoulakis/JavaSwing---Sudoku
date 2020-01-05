@@ -131,6 +131,7 @@ public class ClassicController implements GridController, ActionListener, KeyLis
                     JOptionPane.showMessageDialog(MainFrame.self, "CONGRATULATIONS, YOU MADE IT!");
                     Users.User user = Settings.getCurrentUser();
                     user.addSolvedClassicPuzzleToArraylist(currentPuzzle.getId());
+                    user.addSolvedKillerSudokuPuzzleToArraylist(currentPuzzle.getId());
                     Users.serializeAndWriteFile(Settings.getCurrentUsersList());
                     MainMenu.self.returnToMainMenu();
                 }
