@@ -26,18 +26,14 @@ public class Settings {
         }
     }
     public static void setCurrentGrid(SudokuGrid grid) { currentGrid = grid; }
-    public void changeLanguage(String language) {
-        this.language = language;
-    }
 
     public static void changeRepresentation() {
-        System.out.println("WHAS THE FUCK");
         if (puzzleRepresentation.equals("Numbers"))
             puzzleRepresentation = "Letters";
         else
             puzzleRepresentation = "Numbers";
         if (currentGrid!=null) {
-            System.out.println("Present: "+puzzleRepresentation);
+            System.out.println("Puzzle Representation: "+puzzleRepresentation);
             currentGrid.getController().changeRepresentation();
         }
     }
@@ -49,9 +45,12 @@ public class Settings {
 
 
     public static ArrayList<Integer> getUserClassicPuzzles(){ return currentUser.getSolvedClassicPuzzles(); }
+
     public static String getLanguage() {
         return language;
     }
+    public static void setLanguage(String language) { Settings.language = language; }
+
     public static Users.User getCurrentUser(){ return currentUser; }
     public static Users getCurrentUsersList(){ return currentUsersList; }
 

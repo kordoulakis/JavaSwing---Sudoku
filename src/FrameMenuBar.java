@@ -20,7 +20,7 @@ public class FrameMenuBar extends JMenuBar {
         settings = new JMenu("Settings");
         language = new JMenu("Language");
         user = new JMenu("User");
-        help = new JMenu("Help");
+        help = new JMenu("In-game Settings");
 
 
         MenuItemListener menuItemListener = new MenuItemListener();
@@ -70,7 +70,7 @@ public class FrameMenuBar extends JMenuBar {
         public void actionPerformed(ActionEvent e) {
             String command = e.getActionCommand();
             if (command.equals("English") || command.equals("Greek")) {
-                gameSettings.changeLanguage(command);
+                gameSettings.setLanguage(command);
             }
             else if (command.equals("Wordoku")) {
                 gameSettings.changeRepresentation();

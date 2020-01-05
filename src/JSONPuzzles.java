@@ -32,7 +32,7 @@ public class JSONPuzzles {
 
         return new Gson().fromJson(bufferedReader, JSONPuzzles.class);
     }
-    public ArrayList<Integer> getAvailablePuzzles(){
+    public ArrayList<Integer> getAvailableClassicPuzzles(){
         ArrayList<Integer> completedPuzzles = Settings.getUserClassicPuzzles();
         ArrayList<Integer> temp = new ArrayList<>(Arrays.asList(1,2,3,4,5,6,7,8,9,10));
         temp.removeAll(completedPuzzles);
@@ -43,14 +43,11 @@ public class JSONPuzzles {
     }
     public JSONPuzzle getRandomClassicPuzzle(ArrayList<Integer> availablePuzzles){
         Random r = new Random();
-        int random = -1;
         if (availablePuzzles.size()>0) {
-            random = r.nextInt(availablePuzzles.size());
+            int random = r.nextInt(availablePuzzles.size());
             return puzzles[availablePuzzles.get(random)-1];
         }
-        //TODO check for nulls higher in the codebase
         return null; //This handles in case the user has solved all puzzles
-
     }
 
     public static class JSONPuzzle {

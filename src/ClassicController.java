@@ -7,7 +7,7 @@ import java.awt.event.KeyListener;
 import java.io.FileNotFoundException;
 import java.util.*;
 
-public class ClassicController implements GridController,ActionListener, KeyListener {
+public class ClassicController implements GridController, ActionListener, KeyListener {
     public static LinkedList<String> availableLetters = new LinkedList<>(Arrays.asList("A", "B", "C", "D", "E", "F", "G", "H", "I"));
     public static LinkedList<String> availableNumbers = new LinkedList<>(Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9"));
 
@@ -15,7 +15,6 @@ public class ClassicController implements GridController,ActionListener, KeyList
     private Cell currentSelectedCell = null;
     private static Cell[][] puzzle; //The puzzle represented as a 2D array
     private ClassicGrid parent;
-    private MainMenu root;
     private int guessesToBeMade;
     private JSONPuzzles.JSONPuzzle currentPuzzle;
 
@@ -33,15 +32,10 @@ public class ClassicController implements GridController,ActionListener, KeyList
      * @param columns Number of columns in the grid
      * @throws FileNotFoundException This is thrown because of JSON loading. Java likes to do it this way :)
      */
-    public boolean createGrid(int rows, int columns) throws FileNotFoundException {
-        JSONPuzzles JPuzzles = JSONPuzzles.deserializeFile();
+    public boolean createGrid(int rows, int columns, JSONPuzzles classicPuzzles) {
         Integer currentNumberFromGrid;
-        if(JPuzzles.getAvailablePuzzles()!=null)
-            currentPuzzle = JPuzzles.getRandomClassicPuzzle(JPuzzles.getAvailablePuzzles()); //TODO Change this to static, don't want to have to load the puzzles every time ffs
-        else {
-            JOptionPane.showMessageDialog(MainFrame.self, "No more puzzles to solve!");
-            return false;
-        }
+        currentPuzzle = classicPuzzles.getRandomClassicPuzzle(classicPuzzles.getAvailableClassicPuzzles());
+
         Integer[][] puzzleGrid = currentPuzzle.getGrid();
         for (int y = 0; y < columns; ++y)
             for (int x = 0; x < rows; ++x) {
@@ -53,10 +47,10 @@ public class ClassicController implements GridController,ActionListener, KeyList
                 if (currentNumberFromGrid > 9) {
                     cell.setSelectable(false);
                     currentNumberFromGrid = currentNumberFromGrid / 10;
-                    if (Settings.getPuzzleRepresentation().equals("Numbers")) //TODO Change the locator function to check the hidden number instead of the text ffs
+                    if (Settings.getPuzzleRepresentation().equals("Numbers"))
                         cell.setText(currentNumberFromGrid.toString());
                     else
-                        cell.setText(availableLetters.get(currentNumberFromGrid-1));
+                        cell.setText(availableLetters.get(currentNumberFromGrid - 1));
                     cell.setUserNumber(currentNumberFromGrid);
                 } else {
                     cell.setHiddenNumber(currentNumberFromGrid);
@@ -69,12 +63,16 @@ public class ClassicController implements GridController,ActionListener, KeyList
                 puzzle[x][y] = cell;
                 parent.add(cell, parent.getLayout());
             }
-        for (int y = 0; y < columns; ++y)
-            for (int x = 0; x < rows; ++x) {
-                if (puzzle[x][y].isSelectable())
-                    setInputAtCell(Integer.toString(puzzle[x][y].getHiddenNumber()),puzzle[x][y],puzzle);
-            }
         paintBorders();
+        return true;
+    }
+
+    public boolean solveSelf() {
+        for (int y = 0; y < 9; ++y)
+            for (int x = 0; x < 9; ++x) {
+                if (puzzle[x][y].isSelectable())
+                    setInputAtCell(Integer.toString(puzzle[x][y].getHiddenNumber()), puzzle[x][y], puzzle);
+            }
         return true;
     }
 
@@ -85,16 +83,16 @@ public class ClassicController implements GridController,ActionListener, KeyList
 
     @Override
     public void changeRepresentation() {
-        for (int x=0;x<9;++x)
-            for (int y=0;y<9;++y){
+        for (int x = 0; x < 9; ++x)
+            for (int y = 0; y < 9; ++y) {
                 String text = puzzle[x][y].getText();
                 Integer textAsInt = 0;
-                if(!text.equals("")){
+                if (!text.equals("")) {
                     if (availableLetters.contains(text))
                         textAsInt = availableLetters.indexOf(text) + 1;
                     else {
                         textAsInt = Integer.parseInt(text);
-                        text = availableLetters.get(textAsInt-1);
+                        text = availableLetters.get(textAsInt - 1);
                     }
                     if (Settings.getPuzzleRepresentation().equals("Numbers"))
                         puzzle[x][y].setText(textAsInt.toString());
@@ -103,7 +101,8 @@ public class ClassicController implements GridController,ActionListener, KeyList
                 }
             }
     }
-    public boolean setInputAtCell(String userInput, Cell selectedCell, Cell puzzle[][]) { //TODO Have only one hashset, no need for 2, just use a settings option for it.
+
+    public boolean setInputAtCell(String userInput, Cell selectedCell, Cell puzzle[][]) {
         userInput = userInput.toUpperCase();
         if (userInput.equals(selectedCell.getText()))
             return false;
@@ -119,7 +118,7 @@ public class ClassicController implements GridController,ActionListener, KeyList
             if (Settings.getPuzzleRepresentation().equals("Numbers"))
                 selectedCell.setText(userInputAsInt.toString());
             else
-                selectedCell.setText(availableLetters.get(userInputAsInt-1));
+                selectedCell.setText(availableLetters.get(userInputAsInt - 1));
 
             selectedCell.setUserNumber(userInputAsInt);
             if (userInputAsInt == selectedCell.getHiddenNumber()) {
@@ -156,7 +155,7 @@ public class ClassicController implements GridController,ActionListener, KeyList
      * @variable puzzle       The Array storing the whole Grid of Cells
      * @variable errors An int to know if an errors has been found
      */
-    public boolean isCorrect(Cell selectedCell, Integer userNumber, Cell[][] puzzle) { //TODO Add list of cells that interfere, paint them red
+    public boolean isCorrect(Cell selectedCell, Integer userNumber, Cell[][] puzzle) {
         Thread t = new Thread();
         t.start();
 
@@ -222,6 +221,7 @@ public class ClassicController implements GridController,ActionListener, KeyList
     }
 
     public void showTipsForCurrentCell(Cell c) { //TODO DO THIS ANYWAY, SAVES TIME AND CHECK FOR ERRORS ONLY IF HASHSET DOESN'T CONTAIN THE USERINPUT
+
         String[] numbers = {"1", "2", "3", "4", "5", "6", "7", "8", "9"};
         HashSet<String> available = new HashSet<>(Arrays.asList(numbers));
         HashSet<String> numbersA = new HashSet<>();
@@ -261,8 +261,7 @@ public class ClassicController implements GridController,ActionListener, KeyList
         if (currentSelectedCell == null) {
             currentSelectedCell = cell;
             currentSelectedCell.select();
-        }
-        else {
+        } else {
             //This checks if the cell has already been filled with the correct number
             if (currentSelectedCell.getBackground() == Color.PINK) { //TODO Maybe don't keep this
                 currentSelectedCell = cell;
@@ -301,6 +300,7 @@ public class ClassicController implements GridController,ActionListener, KeyList
     public void keyReleased(KeyEvent e) {
 
     }
+
     @Override
     public void keyTyped(KeyEvent e) {
 
@@ -324,11 +324,10 @@ public class ClassicController implements GridController,ActionListener, KeyList
     }
 
 
-
-
     public Cell getCellAtCoordinates(int x, int y) {
         return puzzle[x][y];
     }
+
     public Cell getSelectableCellOnGrid() {
         for (int i = 0; i < 9; ++i)
             for (int x = 0; x < 9; ++x)
