@@ -57,10 +57,12 @@ public class Users {
         }
 
         public void addSolvedClassicPuzzleToArraylist(int puzzleID) { solvedClassicPuzzles.add(puzzleID); }
-        public void addSolvedDuidokuPuzzleToArraylist(int puzzleID) { solvedDuidokuPuzzles.add(puzzleID); }
+        public void addSolvedKillerSudokuPuzzleToArraylist(int puzzleID) { solvedDuidokuPuzzles.add(puzzleID); }
 
         public ArrayList<Integer> getSolvedClassicPuzzles() { return solvedClassicPuzzles; }
-        public ArrayList<Integer> getSolvedDuidokuPuzzles() { return solvedDuidokuPuzzles; }
+        public ArrayList<Integer> getNotSolvedClassicPuzzles() {return null;}
+        public ArrayList<Integer> getSolvedKillerSudokuPuzzles() { return solvedDuidokuPuzzles; }
+        public ArrayList<Integer> getNotSolvedKillerSudokuPuzzles() {return null;}
 
         public String getUsername() { return username; }
     }

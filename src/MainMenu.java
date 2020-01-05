@@ -11,8 +11,9 @@ public class MainMenu extends JPanel implements ActionListener{
     private MenuButton classicButton;  //Buttons are referenced here first so the global actionListener can access them
     private MenuButton killerSudokuButton;
     private MenuButton duidokuButton;
+    private JSONPuzzles puzzles;
 
-    public MainMenu(){ //TODO transfer puzzle loading here, do it once for the whole instance of the game
+    public MainMenu(){
         super();
         self = this;
         instantiateMenu();
@@ -44,7 +45,13 @@ public class MainMenu extends JPanel implements ActionListener{
 
         gbc.gridx = 2; gbc.gridy = 4;
         add(duidokuButton,gbc);
-
+        try {
+            puzzles = JSONPuzzles.deserializeFile();
+        }
+        catch (FileNotFoundException f){
+            JOptionPane.showMessageDialog(MainFrame.self,"Puzzles file not found.\nMake sure there is a Puzzles" +
+                " folder in your directory","FUckedup",JOptionPane.ERROR_MESSAGE);
+        }
         setVisible(true);
     }
 
@@ -52,22 +59,21 @@ public class MainMenu extends JPanel implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         MenuButton me = (MenuButton)e.getSource();
         if (me == classicButton) {
-            try { //TODO Move this to the whole method, one try for everything
-                currentGrid = new ClassicGrid(); //TODO Fix this please
-                MainFrame.self.add((ClassicGrid)currentGrid);
-                setVisible(false); //TODO THIS is the problem when there are no more puzzles to solve
+            if(puzzles.getAvailableClassicPuzzles()!=null) {
+                currentGrid = new ClassicGrid(puzzles);
+                MainFrame.self.add((ClassicGrid) currentGrid);
+                setVisible(false);
                 Settings.setCurrentGrid(currentGrid);
-            } catch (FileNotFoundException ex) {
-                JOptionPane.showMessageDialog(MainFrame.self,"Puzzles file not found.\nMake sure there is a Puzzles" +
-                        " folder in your directory","FUckedup",JOptionPane.ERROR_MESSAGE);
-                currentGrid=null;
             }
+            else
+                JOptionPane.showMessageDialog(MainFrame.self, "No more puzzles to solve!");
         }
         else if (e.getSource() == killerSudokuButton)
             ;
         else if (e.getSource() == duidokuButton)
-            ;
-        System.out.println("ActionListener worked, source: "+me.getText());
+            currentGrid = new DuidokuGrid();
+
+        //System.out.println("ActionListener worked, source: "+me.getText());
     }
 
 
