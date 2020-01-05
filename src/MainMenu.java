@@ -81,9 +81,12 @@ public class MainMenu extends JPanel implements ActionListener{
             else
                 JOptionPane.showMessageDialog(MainFrame.self, "No more puzzles to solve!");
         }
-        else if (e.getSource() == duidokuButton)
+        else if (me == duidokuButton) {
             currentGrid = new DuidokuGrid();
-
+            MainFrame.self.add((DuidokuGrid) currentGrid);
+            setVisible(false);
+            Settings.setCurrentGrid(currentGrid);
+        }
         //System.out.println("ActionListener worked, source: "+me.getText());
     }
 

@@ -49,7 +49,7 @@ public class Users {
     static class User {
         private String username;
         private ArrayList<Integer> solvedClassicPuzzles = new ArrayList<>();
-        private ArrayList<Integer> solvedDuidokuPuzzles = new ArrayList<>();
+        private ArrayList<Integer> solvedKillerPuzzles = new ArrayList<>();
 
         public User(String username) {
             this.username = username;
@@ -57,11 +57,12 @@ public class Users {
         }
 
         public void addSolvedClassicPuzzleToArraylist(int puzzleID) { solvedClassicPuzzles.add(puzzleID); }
-        public void addSolvedKillerSudokuPuzzleToArraylist(int puzzleID) { solvedDuidokuPuzzles.add(puzzleID); }
+        public void addSolvedKillerSudokuPuzzleToArraylist(int puzzleID) { solvedKillerPuzzles.add(puzzleID); }
 
         public ArrayList<Integer> getSolvedClassicPuzzles() { return solvedClassicPuzzles; }
         public ArrayList<Integer> getNotSolvedClassicPuzzles() {return null;}
-        public ArrayList<Integer> getSolvedKillerSudokuPuzzles() { return solvedDuidokuPuzzles; }
+
+        public ArrayList<Integer> getSolvedKillerSudokuPuzzles() { return solvedKillerPuzzles; }
         public ArrayList<Integer> getNotSolvedKillerSudokuPuzzles() {return null;}
 
         public String getUsername() { return username; }

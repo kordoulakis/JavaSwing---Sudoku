@@ -204,7 +204,8 @@ public class ClassicController implements GridController, ActionListener, KeyLis
     public boolean isAcceptableInput(Character input) {
         if (availableLetters.contains(input.toString().toUpperCase()))
             return true;
-        currentSelectedCell.setFont(new Font("Arial", Font.BOLD, 80));
+        if (currentSelectedCell!=null)
+            currentSelectedCell.setFont(new Font("Arial", Font.BOLD, 80));
         return availableNumbers.contains(input.toString());
     }
 
