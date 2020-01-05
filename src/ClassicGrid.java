@@ -16,7 +16,7 @@ public class ClassicGrid extends JPanel implements SudokuGrid{
         setVisible(true);
         classicController = new ClassicController(this);
         classicController.createGrid(9,9,puzzles);
-        //classicController.solveSelf();
+        classicController.solveSelf();
     }
 
     @Override

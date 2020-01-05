@@ -11,8 +11,8 @@ public class MainMenu extends JPanel implements ActionListener{
     private MenuButton classicButton;  //Buttons are referenced here first so the global actionListener can access them
     private MenuButton killerSudokuButton;
     private MenuButton duidokuButton;
-    private JSONPuzzles puzzles;
-
+    private JSONPuzzles classicPuzzles;
+    private JSONPuzzles killerPuzzles;
     public MainMenu(){
         super();
         self = this;
@@ -46,7 +46,10 @@ public class MainMenu extends JPanel implements ActionListener{
         gbc.gridx = 2; gbc.gridy = 4;
         add(duidokuButton,gbc);
         try {
-            puzzles = JSONPuzzles.deserializeFile();
+            classicPuzzles = JSONPuzzles.deserializeClassicFile();
+            System.out.println("Got classics");
+            killerPuzzles = JSONPuzzles.deserializeKillerFile();
+            System.out.println("Got killers");
         }
         catch (FileNotFoundException f){
             JOptionPane.showMessageDialog(MainFrame.self,"Puzzles file not found.\nMake sure there is a Puzzles" +
@@ -59,8 +62,8 @@ public class MainMenu extends JPanel implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         MenuButton me = (MenuButton)e.getSource();
         if (me == classicButton) {
-            if(puzzles.getAvailableClassicPuzzles()!=null) {
-                currentGrid = new ClassicGrid(puzzles);
+            if(classicPuzzles.getAvailableClassicPuzzles()!=null) {
+                currentGrid = new ClassicGrid(classicPuzzles);
                 MainFrame.self.add((ClassicGrid) currentGrid);
                 setVisible(false);
                 Settings.setCurrentGrid(currentGrid);
@@ -68,8 +71,16 @@ public class MainMenu extends JPanel implements ActionListener{
             else
                 JOptionPane.showMessageDialog(MainFrame.self, "No more puzzles to solve!");
         }
-        else if (e.getSource() == killerSudokuButton)
-            ;
+        else if (me == killerSudokuButton){
+            if(killerPuzzles.getAvailableClassicPuzzles()!=null) {
+                currentGrid = new ClassicGrid(killerPuzzles);
+                MainFrame.self.add((ClassicGrid) currentGrid);
+                setVisible(false);
+                Settings.setCurrentGrid(currentGrid);
+            }
+            else
+                JOptionPane.showMessageDialog(MainFrame.self, "No more puzzles to solve!");
+        }
         else if (e.getSource() == duidokuButton)
             currentGrid = new DuidokuGrid();
 

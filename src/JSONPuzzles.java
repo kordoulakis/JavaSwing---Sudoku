@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.Random;
 
 /***
- * This class handles the transformation of the JSON Files "puzzles.json" into a java object using gson
+ * This class handles the transformation of the JSON Files "---ClassicPuzzles.json" into a java object using gson
  * It uses an array of Puzzle objects to store it
  * @function @getRandomPuzzle returns a random puzzle that the current user has not yet completed.
  *
@@ -26,8 +26,14 @@ public class JSONPuzzles {
      * @return returns the loaded JSON as a JSONPuzzles object which contains an array of arrays representing the puzzles
      * @throws FileNotFoundException If the file is not there, it's handled higher up in the codebase
      */
-    static JSONPuzzles deserializeFile() throws FileNotFoundException {
-        String path = "Puzzles/puzzles.json";
+    static JSONPuzzles deserializeClassicFile() throws FileNotFoundException {
+        String path = "Puzzles/ClassicPuzzles.json";
+        BufferedReader bufferedReader = new BufferedReader(new FileReader(path));
+
+        return new Gson().fromJson(bufferedReader, JSONPuzzles.class);
+    }
+    static JSONPuzzles deserializeKillerFile() throws FileNotFoundException {
+        String path = "Puzzles/KillerPuzzles.json";
         BufferedReader bufferedReader = new BufferedReader(new FileReader(path));
 
         return new Gson().fromJson(bufferedReader, JSONPuzzles.class);
