@@ -41,12 +41,13 @@ public class FrameMenuBar extends JMenuBar {
         selectUser.setActionCommand("SelectUser");
 
         showTips = new JCheckBoxMenuItem("Show Tips", false);
-
+        showTips.setActionCommand("Show Tips");
         //Set ActionListeners
         greek.addActionListener(menuItemListener);
         english.addActionListener(menuItemListener);
         addNewUser.addActionListener(menuItemListener);
         selectUser.addActionListener(menuItemListener);
+        showTips.addActionListener(menuItemListener);
 
         //Add multiple submenus
         help.add(showTips);
@@ -80,6 +81,10 @@ public class FrameMenuBar extends JMenuBar {
             }
             else if(command.equals("SelectUser")){
                 gameSettings.showUsersList();
+            }
+            else if (command.equals("Show Tips")) {
+                gameSettings.setShowTips();
+                System.out.println("got tips");
             }
         }
     }

@@ -102,7 +102,7 @@ public class ClassicController implements GridController, ActionListener, KeyLis
             }
     }
 
-    public boolean setInputAtCell(String userInput, Cell selectedCell, Cell puzzle[][]) {
+    public boolean setInputAtCell(String userInput, Cell selectedCell, Cell[][] puzzle) {
         userInput = userInput.toUpperCase();
         if (userInput.equals(selectedCell.getText()))
             return false;
@@ -204,9 +204,8 @@ public class ClassicController implements GridController, ActionListener, KeyLis
     public boolean isAcceptableInput(Character input) {
         if (availableLetters.contains(input.toString().toUpperCase()))
             return true;
-        if (availableNumbers.contains(input.toString()))
-            return true;
-        return false;
+        currentSelectedCell.setFont(new Font("Arial", Font.BOLD, 80));
+        return availableNumbers.contains(input.toString());
     }
 
     @Override
@@ -220,14 +219,14 @@ public class ClassicController implements GridController, ActionListener, KeyLis
         }
     }
 
-    public void showTipsForCurrentCell(Cell c) { //TODO DO THIS ANYWAY, SAVES TIME AND CHECK FOR ERRORS ONLY IF HASHSET DOESN'T CONTAIN THE USERINPUT
+    public void showTipsForCurrentCell() { //TODO DO THIS ANYWAY, SAVES TIME AND CHECK FOR ERRORS ONLY IF HASHSET DOESN'T CONTAIN THE USERINPUT
 
         String[] numbers = {"1", "2", "3", "4", "5", "6", "7", "8", "9"};
         HashSet<String> available = new HashSet<>(Arrays.asList(numbers));
         HashSet<String> numbersA = new HashSet<>();
         StringBuilder temp = new StringBuilder();
-        int row = c.getPositionX();
-        int column = c.getPositionY();
+        int row = currentSelectedCell.getPositionX();
+        int column = currentSelectedCell.getPositionY();
 
         for (int i = 0; i < 9; ++i) { //Checks the row and column of the cell for the same input.
             if (!puzzle[row][i].getText().equals("")) //not
@@ -246,43 +245,51 @@ public class ClassicController implements GridController, ActionListener, KeyLis
         }
         for (String s : available) {
             currentSelectedCell.setFont(new Font("Arial", Font.BOLD, 20));
-            temp.append(s + " ");
+            temp.append(s).append(" ");
             currentSelectedCell.setText(temp.toString());
         }
         System.out.println();
     }
 
-    public void setCurrentSelectedCell(Cell cell) {
+    public boolean setCurrentSelectedCell(Cell cell) {
 
         if (currentSelectedCell != null && currentSelectedCell == cell)
-            return;
+            return false;
         else
             clearErrorCells();
+
         if (currentSelectedCell == null) {
             currentSelectedCell = cell;
             currentSelectedCell.select();
-        } else {
+        }
+        else {
             //This checks if the cell has already been filled with the correct number
-            if (currentSelectedCell.getBackground() == Color.PINK) { //TODO Maybe don't keep this
-                currentSelectedCell = cell;
-                currentSelectedCell.select();
-                return;
-            } else {
+            if (currentSelectedCell.isSelectable()){
+                returnCellToDefaultState();
                 currentSelectedCell.deSelect();
                 currentSelectedCell = cell;
                 currentSelectedCell.select();
             }
-
         }
+        if (Settings.getShowTipsValue())
+            showTipsForCurrentCell();
+        return true;
+
     }
 
+    private void returnCellToDefaultState(){
+        if (currentSelectedCell.isSelectable()){
+            currentSelectedCell.setFont(new Font("Arial", Font.BOLD, 80));
+            currentSelectedCell.setText(" ");
+        }
+    }
     /***
      *
      * @param e The typed key.
      */
     @Override
     public void keyPressed(KeyEvent e) { //Takes the user input and assigns it to the selected Cell.
-        Character key = (Character) e.getKeyChar();
+        Character key = e.getKeyChar();
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE) { //If player presses the Escape key, it promts him to go back to MainMenu
             Object[] f = {"Yes", "No"};
             int n = JOptionPane.showOptionDialog(parent, "Really Exit?", "Exit App", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, null, f, f[1]);
@@ -290,10 +297,9 @@ public class ClassicController implements GridController, ActionListener, KeyLis
                 MainMenu.self.returnToMainMenu();
         } else if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE && currentSelectedCell != null && currentSelectedCell.isSelectable())
             currentSelectedCell.setText("");
+
         if (isAcceptableInput(key) && currentSelectedCell != null)
             setInputAtCell(key.toString(), currentSelectedCell, puzzle);
-        else
-            return;
     }
 
     @Override
@@ -323,16 +329,4 @@ public class ClassicController implements GridController, ActionListener, KeyLis
         puzzle[5][5].setBorder(BorderFactory.createMatteBorder(1, 1, 5, 5, Color.DARK_GRAY));
     }
 
-
-    public Cell getCellAtCoordinates(int x, int y) {
-        return puzzle[x][y];
-    }
-
-    public Cell getSelectableCellOnGrid() {
-        for (int i = 0; i < 9; ++i)
-            for (int x = 0; x < 9; ++x)
-                if (puzzle[i][x].isSelectable())
-                    return puzzle[i][x];
-        return null;
-    }
 }
