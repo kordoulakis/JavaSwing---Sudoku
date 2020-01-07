@@ -47,9 +47,9 @@ public class MainMenu extends JPanel implements ActionListener{
         add(duidokuButton,gbc);
         try {
             classicPuzzles = JSONPuzzles.deserializeClassicFile();
-            System.out.println("Got classics");
+            System.out.println("Loaded Classic Puzzles");
             killerPuzzles = JSONPuzzles.deserializeKillerFile();
-            System.out.println("Got killers");
+            System.out.println("Loaded Killer Sudoku Puzzles");
         }
         catch (FileNotFoundException f){
             JOptionPane.showMessageDialog(MainFrame.self,"Puzzles file not found.\nMake sure there is a Puzzles" +
@@ -96,7 +96,9 @@ public class MainMenu extends JPanel implements ActionListener{
             currentGrid.setVisibility(false);
             currentGrid = null;
         }
-        catch(NullPointerException n){;}
+        catch(NullPointerException n){
+            System.out.println("Exception cought on return to menu");
+        }
 
         setVisible(true);
 

@@ -31,6 +31,7 @@ public class Cell extends JButton {
 
     public void setFilled(boolean b) { isFilled = b; }
     public boolean isFilled(){ return isFilled; }
+
     public boolean isSelectable(){ return isSelectable; }
 
     public void paintUserError(){

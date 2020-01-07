@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 
+
 public class DuidokuGrid extends JPanel implements SudokuGrid {
 
     private GridLayout layout;
@@ -11,16 +12,14 @@ public class DuidokuGrid extends JPanel implements SudokuGrid {
         layout = new GridLayout(4,4);
         setLayout(layout);
         setVisible(true);
-        duidokuController = new DuidokuController(this);
+        duidokuController = new DuidokuController(this,new NaiveOpponent(this));
         duidokuController.createGrid(4,4);
     }
     @Override
-    public void setVisibility(boolean visible) {
-
-    }
+    public void setVisibility(boolean visible) { setVisible(visible); }
 
     @Override
     public GridController getController() {
-        return null;
+        return duidokuController;
     }
 }

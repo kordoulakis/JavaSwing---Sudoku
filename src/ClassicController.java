@@ -102,6 +102,7 @@ public class ClassicController implements GridController, ActionListener, KeyLis
             }
     }
 
+    @Override
     public boolean setInputAtCell(String userInput, Cell selectedCell, Cell[][] puzzle) {
         userInput = userInput.toUpperCase();
         if (userInput.equals(selectedCell.getText()))
@@ -156,9 +157,6 @@ public class ClassicController implements GridController, ActionListener, KeyLis
      * @variable errors An int to know if an errors has been found
      */
     public boolean isCorrect(Cell selectedCell, Integer userNumber, Cell[][] puzzle) {
-        Thread t = new Thread();
-        t.start();
-
         int row = selectedCell.getPositionX();
         int column = selectedCell.getPositionY();
         int errors = 0;
@@ -220,8 +218,9 @@ public class ClassicController implements GridController, ActionListener, KeyLis
         }
     }
 
-    public void showTipsForCurrentCell() { //TODO DO THIS ANYWAY, SAVES TIME AND CHECK FOR ERRORS ONLY IF HASHSET DOESN'T CONTAIN THE USERINPUT
-
+    public boolean showTipsForCurrentCell() { //TODO DO THIS ANYWAY, SAVES TIME AND CHECK FOR ERRORS ONLY IF HASHSET DOESN'T CONTAIN THE USERINPUT
+        if(currentSelectedCell==null)
+            return false;
         String[] numbers = {"1", "2", "3", "4", "5", "6", "7", "8", "9"};
         HashSet<String> available = new HashSet<>(Arrays.asList(numbers));
         HashSet<String> numbersA = new HashSet<>();
@@ -249,9 +248,10 @@ public class ClassicController implements GridController, ActionListener, KeyLis
             temp.append(s).append(" ");
             currentSelectedCell.setText(temp.toString());
         }
-        System.out.println();
+        return true;
     }
 
+    @Override
     public boolean setCurrentSelectedCell(Cell cell) {
 
         if (currentSelectedCell != null && currentSelectedCell == cell)
@@ -284,6 +284,7 @@ public class ClassicController implements GridController, ActionListener, KeyLis
             currentSelectedCell.setText(" ");
         }
     }
+
     /***
      *
      * @param e The typed key.
