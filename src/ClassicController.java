@@ -90,10 +90,12 @@ public class ClassicController implements GridController, ActionListener, KeyLis
                 if (!text.equals("")) {
                     if (availableLetters.contains(text))
                         textAsInt = availableLetters.indexOf(text) + 1;
-                    else {
+                    else if (availableNumbers.contains(text)){
                         textAsInt = Integer.parseInt(text);
                         text = availableLetters.get(textAsInt - 1);
                     }
+                    else
+                        break;
                     if (Settings.getPuzzleRepresentation().equals("Numbers"))
                         puzzle[x][y].setText(textAsInt.toString());
                     else

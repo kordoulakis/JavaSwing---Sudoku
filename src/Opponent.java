@@ -1,6 +1,8 @@
+import java.util.ArrayList;
+
 public interface Opponent {
 
     boolean makeAMove();
-    Cell analyzeBoard();
+    ArrayList<Cell> getAvailableCellsFromBoard();
 
 }

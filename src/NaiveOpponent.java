@@ -1,51 +1,50 @@
 import java.awt.*;
-import java.util.HashMap;
-import java.util.Random;
+import java.util.*;
 
+/***
+ *
+ */
 public class NaiveOpponent implements Opponent {
     DuidokuGrid parent;
     Cell[][] board;
 
-    public NaiveOpponent(DuidokuGrid parent){
+    public NaiveOpponent(DuidokuGrid parent) {
         this.parent = parent;
     }
 
     @Override
-    public boolean makeAMove() {
-        Cell cell = analyzeBoard();
-        if(cell != null){
-            Random r = new Random();
-            Integer a = r.nextInt(3) + 1;
-            if(!parent.getController().isCorrect(cell, a, parent.getController().getPuzzle()))
-                makeAMove();
-            else {
-                cell.setText(a.toString());
-                cell.setSelectable(false);
-                cell.setBackground(Color.RED);
-            }
+    public boolean makeAMove() { //TODO Get the hashset of available moves, do one of them
+        ArrayList<Cell> availableCells = getAvailableCellsFromBoard();
+        if (availableCells == null)
+            return false;
+        Cell cell = availableCells.get(new Random().nextInt(availableCells.size()));
+        DuidokuController controller = (DuidokuController) parent.getController();
+        LinkedList<String> availableMoves = new LinkedList<>(controller.getTipsForCurrentCell(cell));
+        if (!availableMoves.isEmpty()){
+            String text = availableMoves.get(new Random().nextInt(availableMoves.size()));
+            controller.setInputAtCell(text,cell,controller.getPuzzle());
+            return true;
         }
         return false;
     }
 
     @Override
-    public Cell analyzeBoard() {
+    public ArrayList<Cell> getAvailableCellsFromBoard() { //TODO Return hashset of cells, remove them if makeAMoveFails and try again.
         board = parent.getController().getPuzzle();
-        int availableCells=0;
-        HashMap<Integer, Cell> map = new HashMap<>();
-        for (int x=0; x<board.length; ++x)
-            for (int y=0; y<board.length; ++y){
+        ArrayList<Cell> availableCells = new ArrayList<>();
+
+        int cells = 0;
+        for (int x = 0; x < board.length; ++x)
+            for (int y = 0; y < board.length; ++y) {
                 Cell cell = board[x][y];
-                if (board[x][y].isSelectable()){
-                    availableCells++;
-                    map.put(availableCells, cell);
+                if (board[x][y].isSelectable()) {
+                    cells++;
+                    availableCells.add(board[x][y]);
                 }
             }
-        if (availableCells==0)
+        if (cells == 0)
             return null;
+        return availableCells;
 
-        Random r = new Random();
-        int selection = r.nextInt(map.size());
-
-        return map.get(selection);
     }
 }
