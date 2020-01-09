@@ -2,6 +2,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /***
@@ -10,7 +11,7 @@ import java.util.ArrayList;
  * Users acts as an @ArrayList of user objects and allows it to dynamically change through the buttons inside the
  * Settings class.
  * User is an inner class that stores each individual user's data and each one is created at runtime when loading the
- * appropriate JSONPuzzles files from the game's directory.
+ * appropriate ClassicJSONPuzzles files from the game's directory.
  */
 public class Users {
     private ArrayList<User> users = new ArrayList<>();
@@ -50,6 +51,7 @@ public class Users {
         private String username;
         private ArrayList<Integer> solvedClassicPuzzles = new ArrayList<>();
         private ArrayList<Integer> solvedKillerPuzzles = new ArrayList<>();
+        private ArrayList<String> gamesAgainstComputer = new ArrayList<>();
 
         public User(String username) {
             this.username = username;
@@ -58,12 +60,11 @@ public class Users {
 
         public void addSolvedClassicPuzzleToArraylist(int puzzleID) { solvedClassicPuzzles.add(puzzleID); }
         public void addSolvedKillerSudokuPuzzleToArraylist(int puzzleID) { solvedKillerPuzzles.add(puzzleID); }
+        public void addGameToDuidokuArraylist(String winner) { gamesAgainstComputer.add(winner); }
 
         public ArrayList<Integer> getSolvedClassicPuzzles() { return solvedClassicPuzzles; }
-        public ArrayList<Integer> getNotSolvedClassicPuzzles() {return null;}
-
         public ArrayList<Integer> getSolvedKillerSudokuPuzzles() { return solvedKillerPuzzles; }
-        public ArrayList<Integer> getNotSolvedKillerSudokuPuzzles() {return null;}
+        public ArrayList<String> getGamesAgainstComputer() { return gamesAgainstComputer; }
 
         public String getUsername() { return username; }
     }

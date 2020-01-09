@@ -1,4 +1,3 @@
-import java.awt.*;
 import java.util.*;
 
 /***
@@ -19,7 +18,7 @@ public class NaiveOpponent implements Opponent {
             return false;
         Cell cell = availableCells.get(new Random().nextInt(availableCells.size()));
         DuidokuController controller = (DuidokuController) parent.getController();
-        LinkedList<String> availableMoves = new LinkedList<>(controller.getTipsForCurrentCell(cell));
+        LinkedList<String> availableMoves = new LinkedList<>(controller.getTipsForCell(cell));
         if (!availableMoves.isEmpty()){
             String text = availableMoves.get(new Random().nextInt(availableMoves.size()));
             controller.setInputAtCell(text,cell,controller.getPuzzle());

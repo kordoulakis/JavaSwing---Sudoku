@@ -1,6 +1,4 @@
 import javax.swing.*;
-import javax.swing.Timer;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,6 +12,7 @@ public class DuidokuController implements GridController, ActionListener, KeyLis
     private Cell currentSelectedCell;
     private Opponent opponent;
     private boolean player;
+    private boolean gameEnd;
 
     private LinkedList<String> availableLetters = new LinkedList<>(Arrays.asList("A", "B", "C", "D"));
     private LinkedList<String> availableNumbers = new LinkedList<>(Arrays.asList("1", "2", "3", "4"));
@@ -36,7 +35,9 @@ public class DuidokuController implements GridController, ActionListener, KeyLis
                 parent.add(cell);
                 duidokuGrid[y][x] = cell;
                 player = true;
+                gameEnd = false;
             }
+        paintBorders();
         return true;
     }
 
@@ -105,15 +106,18 @@ public class DuidokuController implements GridController, ActionListener, KeyLis
     public boolean isCorrect(Cell currentSelectedCell, Integer input, Cell[][] puzzle) {
         int row = currentSelectedCell.getPositionX();
         int column = currentSelectedCell.getPositionY();
-
+        String textToSet = null;
         for (int x = 0; x < 4; ++x) {
-            if (puzzle[row][x].getText().equals(input.toString()))
+            if (Settings.getPuzzleRepresentation().equals("Letters"))
+                textToSet = availableLetters.get(input - 1);
+            else
+                textToSet = input.toString();
+            if (puzzle[row][x].getText().equals(textToSet))
                 return false;
-            if (puzzle[x][column].getText().equals(input.toString()))
+            if (puzzle[x][column].getText().equals(textToSet))
                 return false;
         }
-
-        return true;
+        return getTipsForCell(currentSelectedCell).contains(textToSet);
     }
 
     @Override
@@ -126,11 +130,6 @@ public class DuidokuController implements GridController, ActionListener, KeyLis
         currentSelectedCell = cell;
         updateBoard();
         return true;
-    }
-
-    @Override
-    public boolean showTipsForCurrentCell() {
-        return false;
     }
 
     @Override
@@ -157,17 +156,36 @@ public class DuidokuController implements GridController, ActionListener, KeyLis
         if (availableLetters.contains(key.toString().toUpperCase()) || availableNumbers.contains(key.toString())) {
             if (setInputAtCell(key.toString().toUpperCase(), currentSelectedCell, duidokuGrid)) {
                 updateBoard();
-                opponent.makeAMove();
-                updateBoard();
+                if (!gameEnd) {
+                    opponent.makeAMove();
+                    updateBoard();
+                }
             }
         }
     }
 
-    private boolean updateBoard() {
+    private void evaluateGameState() {
+        for (int x = 0; x < 4; ++x)
+            for (int y = 0; y < 4; ++y) {
+                if (duidokuGrid[x][y].isSelectable())
+                    return;
+            }
+        gameEnd = true;
+        player = !player;
+        String text;
+        if (player) text = "Player";
+        else text = "Computer";
+        saveUserData();
+        JOptionPane.showMessageDialog(parent, "Winner: " + text, "END OF GAME", JOptionPane.ERROR_MESSAGE);
+        MainMenu.self.returnToMainMenu();
+
+    }
+
+    private void updateBoard() {
         if (areThereAvailableMoves()) {
             for (int x = 0; x < 4; ++x)
                 for (int y = 0; y < 4; ++y) {
-                    HashSet<String> availableOptions = getTipsForCurrentCell(duidokuGrid[x][y]);
+                    HashSet<String> availableOptions = getTipsForCell(duidokuGrid[x][y]);
                     if (duidokuGrid[x][y].isSelectable())
                         if (availableOptions.isEmpty()) {
                             duidokuGrid[x][y].setText("");
@@ -179,14 +197,17 @@ public class DuidokuController implements GridController, ActionListener, KeyLis
                         }
                 }
         }
+        evaluateGameState();
+    }
+
+    public boolean saveUserData() {
+        Users.User user = Settings.getCurrentUser();
+        if (player)
+            user.addGameToDuidokuArraylist("Victory");
         else
-        {
-            player = !player;
-            String text;
-            if (player) text = "Player"; else text = "Computer";
-            JOptionPane.showMessageDialog(parent, "Winner: " +text, "END OF GAME", JOptionPane.ERROR_MESSAGE);
-            MainMenu.self.returnToMainMenu();
-        }
+            user.addGameToDuidokuArraylist("Defeat");
+        Users.serializeAndWriteFile(Settings.getCurrentUsersList());
+
         return true;
     }
 
@@ -197,12 +218,15 @@ public class DuidokuController implements GridController, ActionListener, KeyLis
                 if (duidokuGrid[x][y].isSelectable())
                     available++;
             }
-
         return available != 0;
     }
 
-    public HashSet<String> getTipsForCurrentCell(Cell cell) {
-        HashSet<String> availableOptions = new HashSet<>(Arrays.asList("1", "2", "3", "4"));
+    public HashSet<String> getTipsForCell(Cell cell) {
+        HashSet<String> availableOptions;
+        if (Settings.getPuzzleRepresentation().equals("Numbers"))
+            availableOptions = new HashSet<>(Arrays.asList("1", "2", "3", "4"));
+        else
+            availableOptions = new HashSet<>(Arrays.asList("A", "B", "C", "D"));
         int row = cell.getPositionX();
         int column = cell.getPositionY();
 
@@ -210,6 +234,12 @@ public class DuidokuController implements GridController, ActionListener, KeyLis
             availableOptions.remove(duidokuGrid[row][x].getText());
             availableOptions.remove(duidokuGrid[x][column].getText());
         }
+        int puzzleRow = row - row % 2;
+        int puzzleColumn = column - column % 2;
+        for (int x = puzzleRow; x < puzzleRow + 2; ++x)
+            for (int y = puzzleColumn; y < puzzleColumn + 2; ++y) {
+                availableOptions.remove(duidokuGrid[x][y].getText());
+            }
 
         return availableOptions;
     }
@@ -217,5 +247,24 @@ public class DuidokuController implements GridController, ActionListener, KeyLis
     @Override
     public void keyReleased(KeyEvent e) {
 
+    }
+    @Override
+    public void paintBorders(){
+        Cell[][] puzzle = getPuzzle();
+        for (int x=0; x<4; ++x)
+            for (int y=0; y<4; ++y)
+                puzzle[x][y].setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.DARK_GRAY));
+        puzzle[1][0].setBorder(BorderFactory.createMatteBorder(1, 1, 1, 3, Color.DARK_GRAY));
+        puzzle[1][1].setBorder(BorderFactory.createMatteBorder(1, 1, 3, 3, Color.DARK_GRAY));
+        puzzle[0][1].setBorder(BorderFactory.createMatteBorder(1, 1, 3, 1, Color.DARK_GRAY));
+        puzzle[0][2].setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.DARK_GRAY));
+        puzzle[1][2].setBorder(BorderFactory.createMatteBorder(1, 1, 1, 3, Color.DARK_GRAY));
+        puzzle[1][3].setBorder(BorderFactory.createMatteBorder(1, 1, 1, 3, Color.DARK_GRAY));
+
+        puzzle[2][0].setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.DARK_GRAY));
+        puzzle[2][1].setBorder(BorderFactory.createMatteBorder(1, 1, 3, 1, Color.DARK_GRAY));
+        puzzle[2][1].setBorder(BorderFactory.createMatteBorder(1, 1, 3, 1, Color.DARK_GRAY));
+        puzzle[3][1].setBorder(BorderFactory.createMatteBorder(1, 1, 3, 1, Color.DARK_GRAY));
+        puzzle[3][1].setBorder(BorderFactory.createMatteBorder(1, 1, 3, 1, Color.DARK_GRAY));
     }
 }

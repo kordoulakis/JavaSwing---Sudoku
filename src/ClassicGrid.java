@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.io.FileNotFoundException;
 
 /**
  * @author Elias Kordoulas
@@ -9,7 +8,7 @@ public class ClassicGrid extends JPanel implements SudokuGrid{
     private GridLayout layout;
     private ClassicController classicController;
 
-    public ClassicGrid(JSONPuzzles puzzles){
+    public ClassicGrid(ClassicJSONPuzzles puzzles){
         super();
         layout = new GridLayout(9, 9);
         setLayout(layout);

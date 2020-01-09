@@ -1,15 +1,23 @@
 import javax.swing.*;
 import java.awt.*;
 import java.io.FileNotFoundException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.concurrent.Flow;
 
-
+/***
+ * This class binds to FrameMenuBar which is used for housing the settings menus
+ * It handles the loading and handling of the user settings as well as the current gameplay options such as Tips and
+ * Wordoku.
+ */
 public class Settings {
     private static String language;
     private static String puzzleRepresentation;
     private static Users currentUsersList;
     private static Users.User currentUser;
     private static JFrame changeUserFrame;
+    private static JFrame gamesAgainstComputerFrame;
+
     private static SudokuGrid currentGrid;
     private static boolean showTips;
 
@@ -45,7 +53,7 @@ public class Settings {
 
 
     public static ArrayList<Integer> getUserClassicPuzzles(){ return currentUser.getSolvedClassicPuzzles(); }
-
+    public static ArrayList<Integer> getUserKillerPuzzles() { return currentUser.getSolvedKillerSudokuPuzzles(); }
     public static String getLanguage() {
         return language;
     }
@@ -64,6 +72,28 @@ public class Settings {
         for (Users.User u : currentUsersList.getList()){
             System.out.println(u.getUsername());
             changeUserFrame.add(new SelectUserButton(u.getUsername()));
+        }
+    }
+    public void showCurrentUserGamesAgainstComputer(){
+        ArrayList<String> games = currentUser.getGamesAgainstComputer();
+        if (games.isEmpty()) {
+            System.out.println("empty");
+            return;
+        }
+        gamesAgainstComputerFrame = new JFrame();
+        gamesAgainstComputerFrame.setTitle(currentUser.getUsername()+"'s games");
+        gamesAgainstComputerFrame.setVisible(true);
+        gamesAgainstComputerFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        gamesAgainstComputerFrame.setLayout(new FlowLayout(FlowLayout.LEFT));
+        gamesAgainstComputerFrame.setSize(400,400);
+        Integer i=0;
+        for (String string : games){
+            ++i;
+            System.out.println(string);
+            JButton temp = new JButton("Game "+ i + ": "+ string);
+            temp.setContentAreaFilled(false);
+            temp.setFocusable(false);
+            gamesAgainstComputerFrame.add(temp);
         }
     }
     public void addUser() {

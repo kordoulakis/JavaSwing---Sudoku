@@ -11,8 +11,8 @@ public class MainMenu extends JPanel implements ActionListener{
     private MenuButton classicButton;  //Buttons are referenced here first so the global actionListener can access them
     private MenuButton killerSudokuButton;
     private MenuButton duidokuButton;
-    private JSONPuzzles classicPuzzles;
-    private JSONPuzzles killerPuzzles;
+    private ClassicJSONPuzzles classicPuzzles;
+    private KillerJSONPuzzles killerPuzzles;
     public MainMenu(){
         super();
         self = this;
@@ -46,9 +46,9 @@ public class MainMenu extends JPanel implements ActionListener{
         gbc.gridx = 2; gbc.gridy = 4;
         add(duidokuButton,gbc);
         try {
-            classicPuzzles = JSONPuzzles.deserializeClassicFile();
+            classicPuzzles = ClassicJSONPuzzles.deserializeClassicFile();
             System.out.println("Loaded Classic Puzzles");
-            killerPuzzles = JSONPuzzles.deserializeKillerFile();
+            killerPuzzles = KillerJSONPuzzles.deserializeKillerFile();
             System.out.println("Loaded Killer Sudoku Puzzles");
         }
         catch (FileNotFoundException f){
@@ -72,9 +72,9 @@ public class MainMenu extends JPanel implements ActionListener{
                 JOptionPane.showMessageDialog(MainFrame.self, "No more puzzles to solve!");
         }
         else if (me == killerSudokuButton){
-            if(killerPuzzles.getAvailableClassicPuzzles()!=null) {
-                currentGrid = new ClassicGrid(killerPuzzles);
-                MainFrame.self.add((ClassicGrid) currentGrid);
+            if(killerPuzzles.getAvailableKillerPuzzles()!=null) {
+                currentGrid = new KillerSudokuGrid(killerPuzzles);
+                MainFrame.self.add((KillerSudokuGrid) currentGrid);
                 setVisible(false);
                 Settings.setCurrentGrid(currentGrid);
             }
@@ -99,9 +99,7 @@ public class MainMenu extends JPanel implements ActionListener{
         catch(NullPointerException n){
             System.out.println("Exception cought on return to menu");
         }
-
         setVisible(true);
-
     }
 
 }

@@ -8,6 +8,10 @@ public class Cell extends JButton {
     private boolean isSelectable;
     private int positionX,positionY;
 
+    private Color defaultBackground;
+    private Font defaultFont;
+    private String defaultText;
+
     public Cell(boolean isSelectable, int positionY, int positionX){
         super();
         isFilled = false;
@@ -22,6 +26,11 @@ public class Cell extends JButton {
         setFont(new Font("Moderne Sans",Font.BOLD,80));
     }
 
+    public void setDefaultState(Color background, Font font, String text){
+        defaultBackground = background;
+        defaultFont = font;
+        defaultText = text;
+    }
     public void select(){ //Sets the current cell as selected
         setBackground(Color.ORANGE);
     }
@@ -42,7 +51,7 @@ public class Cell extends JButton {
     }
 
     public void setSelectable(boolean selectable){ isSelectable = selectable; }
-    public int getNumber(){ return userNumber; }
+    public int getUserNumber(){ return userNumber; }
     public int getHiddenNumber() { return hiddenNumber; }
     public int getPositionX() { return positionX; }
     public int getPositionY() { return positionY; }

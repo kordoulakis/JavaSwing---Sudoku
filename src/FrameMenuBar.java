@@ -6,7 +6,7 @@ import java.io.FileNotFoundException;
 public class FrameMenuBar extends JMenuBar {
     static FrameMenuBar self;
     private JMenu settings, language, user, help;
-    private JMenuItem addNewUser, selectUser;
+    private JMenuItem addNewUser, selectUser, showGames;
     private JMenuItem english, greek;
     private static JCheckBoxMenuItem showTips, wordoku;
     private Settings gameSettings;
@@ -39,6 +39,8 @@ public class FrameMenuBar extends JMenuBar {
         addNewUser.setActionCommand("AddUser");
         selectUser = new JMenuItem("Select User");
         selectUser.setActionCommand("SelectUser");
+        showGames = new JMenuItem("Show Games Standing");
+        showGames.setActionCommand("ShowGames");
 
         showTips = new JCheckBoxMenuItem("Show Tips", false);
         showTips.setActionCommand("Show Tips");
@@ -47,6 +49,8 @@ public class FrameMenuBar extends JMenuBar {
         english.addActionListener(menuItemListener);
         addNewUser.addActionListener(menuItemListener);
         selectUser.addActionListener(menuItemListener);
+        showGames.addActionListener(menuItemListener);
+
         showTips.addActionListener(menuItemListener);
 
         //Add multiple submenus
@@ -58,6 +62,7 @@ public class FrameMenuBar extends JMenuBar {
 
         user.add(addNewUser);
         user.add(selectUser);
+        user.add(showGames);
 
         settings.add(language);
         settings.add(user);
@@ -84,8 +89,9 @@ public class FrameMenuBar extends JMenuBar {
             }
             else if (command.equals("Show Tips")) {
                 gameSettings.setShowTips();
-                System.out.println("got tips");
             }
+            else if(command.equals("ShowGames"))
+                gameSettings.showCurrentUserGamesAgainstComputer();
         }
     }
 

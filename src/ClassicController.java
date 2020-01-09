@@ -7,16 +7,16 @@ import java.awt.event.KeyListener;
 import java.io.FileNotFoundException;
 import java.util.*;
 
-public class ClassicController implements GridController, ActionListener, KeyListener {
+public class ClassicController extends SudokuController implements GridController, ActionListener, KeyListener {
     public static LinkedList<String> availableLetters = new LinkedList<>(Arrays.asList("A", "B", "C", "D", "E", "F", "G", "H", "I"));
     public static LinkedList<String> availableNumbers = new LinkedList<>(Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9"));
 
     public static ArrayList<Cell> errorCells;
     private Cell currentSelectedCell = null;
-    private static Cell[][] puzzle; //The puzzle represented as a 2D array
+    private Cell[][] puzzle; //The puzzle represented as a 2D array
     private ClassicGrid parent;
     private int guessesToBeMade;
-    private JSONPuzzles.JSONPuzzle currentPuzzle;
+    private ClassicJSONPuzzles.ClassicJSONPuzzle currentPuzzle;
 
     public ClassicController(ClassicGrid grid) {
         errorCells = new ArrayList<>();
@@ -32,7 +32,7 @@ public class ClassicController implements GridController, ActionListener, KeyLis
      * @param columns Number of columns in the grid
      * @throws FileNotFoundException This is thrown because of JSON loading. Java likes to do it this way :)
      */
-    public boolean createGrid(int rows, int columns, JSONPuzzles classicPuzzles) {
+    public boolean createGrid(int rows, int columns, ClassicJSONPuzzles classicPuzzles) {
         Integer currentNumberFromGrid;
         currentPuzzle = classicPuzzles.getRandomClassicPuzzle(classicPuzzles.getAvailableClassicPuzzles());
 
@@ -85,21 +85,17 @@ public class ClassicController implements GridController, ActionListener, KeyLis
     public void changeRepresentation() {
         for (int x = 0; x < 9; ++x)
             for (int y = 0; y < 9; ++y) {
-                String text = puzzle[x][y].getText();
-                Integer textAsInt = 0;
-                if (!text.equals("")) {
-                    if (availableLetters.contains(text))
-                        textAsInt = availableLetters.indexOf(text) + 1;
-                    else if (availableNumbers.contains(text)){
-                        textAsInt = Integer.parseInt(text);
-                        text = availableLetters.get(textAsInt - 1);
+                Cell cell = puzzle[x][y];
+                if (!cell.isSelectable()){
+                    Integer cellNumber = cell.getUserNumber();
+                    String text = availableLetters.get(cellNumber-1);
+
+                    if (Settings.getPuzzleRepresentation().equals("Numbers")) {
+                        puzzle[x][y].setText(cellNumber.toString());
                     }
-                    else
-                        break;
-                    if (Settings.getPuzzleRepresentation().equals("Numbers"))
-                        puzzle[x][y].setText(textAsInt.toString());
-                    else
+                    else{
                         puzzle[x][y].setText(text);
+                    }
                 }
             }
     }
@@ -202,11 +198,13 @@ public class ClassicController implements GridController, ActionListener, KeyLis
     }
 
     public boolean isAcceptableInput(Character input) {
-        if (availableLetters.contains(input.toString().toUpperCase()))
-            return true;
-        if (currentSelectedCell!=null)
+        if (currentSelectedCell != null)
             currentSelectedCell.setFont(new Font("Arial", Font.BOLD, 80));
-        return availableNumbers.contains(input.toString());
+
+        if (availableLetters.contains(input.toString().toUpperCase()) || availableNumbers.contains(input.toString()))
+            return true;
+
+        return false;
     }
 
     @Override
@@ -220,11 +218,17 @@ public class ClassicController implements GridController, ActionListener, KeyLis
         }
     }
 
-    public boolean showTipsForCurrentCell() { //TODO DO THIS ANYWAY, SAVES TIME AND CHECK FOR ERRORS ONLY IF HASHSET DOESN'T CONTAIN THE USERINPUT
-        if(currentSelectedCell==null)
+    private boolean showTipsForCurrentCell() { //TODO DO THIS ANYWAY, SAVES TIME AND CHECK FOR ERRORS ONLY IF HASHSET DOESN'T CONTAIN THE USERINPUT
+        if (currentSelectedCell == null)
             return false;
         String[] numbers = {"1", "2", "3", "4", "5", "6", "7", "8", "9"};
-        HashSet<String> available = new HashSet<>(Arrays.asList(numbers));
+        String[] letters = {"A", "B", "C", "D", "E", "F", "G", "H", "I"};
+        HashSet<String> available;
+        if (Settings.getPuzzleRepresentation().equals("Numbers"))
+            available = new HashSet<>(Arrays.asList(numbers));
+        else
+            available = new HashSet<>(Arrays.asList(letters));
+
         HashSet<String> numbersA = new HashSet<>();
         StringBuilder temp = new StringBuilder();
         int row = currentSelectedCell.getPositionX();
@@ -254,6 +258,11 @@ public class ClassicController implements GridController, ActionListener, KeyLis
     }
 
     @Override
+    public boolean saveUserData() {
+        return false;
+    }
+
+    @Override
     public boolean setCurrentSelectedCell(Cell cell) {
 
         if (currentSelectedCell != null && currentSelectedCell == cell)
@@ -264,10 +273,9 @@ public class ClassicController implements GridController, ActionListener, KeyLis
         if (currentSelectedCell == null) {
             currentSelectedCell = cell;
             currentSelectedCell.select();
-        }
-        else {
+        } else {
             //This checks if the cell has already been filled with the correct number
-            if (currentSelectedCell.isSelectable()){
+            if (currentSelectedCell.isSelectable()) {
                 returnCellToDefaultState();
                 currentSelectedCell.deSelect();
                 currentSelectedCell = cell;
@@ -280,8 +288,8 @@ public class ClassicController implements GridController, ActionListener, KeyLis
 
     }
 
-    private void returnCellToDefaultState(){
-        if (currentSelectedCell.isSelectable()){
+    private void returnCellToDefaultState() {
+        if (currentSelectedCell.isSelectable()) {
             currentSelectedCell.setFont(new Font("Arial", Font.BOLD, 80));
             currentSelectedCell.setText(" ");
         }
@@ -314,23 +322,6 @@ public class ClassicController implements GridController, ActionListener, KeyLis
     @Override
     public void keyTyped(KeyEvent e) {
 
-    }
-
-    //Paints the borders of the appropriate cells on the board for visual clarity.
-    private void paintBorders() {  //TODO Maybe make this not like this? Not elegant, but it works
-        for (int i = 0; i < 9; ++i)
-            for (int f = 0; f < 9; ++f)
-                puzzle[i][f].setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.DARK_GRAY));
-        for (int x = 0; x < 9; ++x) {
-            puzzle[2][x].setBorder(BorderFactory.createMatteBorder(1, 1, 1, 5, Color.DARK_GRAY));
-            puzzle[5][x].setBorder(BorderFactory.createMatteBorder(1, 1, 1, 5, Color.DARK_GRAY));
-            puzzle[x][2].setBorder(BorderFactory.createMatteBorder(1, 1, 5, 1, Color.DARK_GRAY));
-            puzzle[x][5].setBorder(BorderFactory.createMatteBorder(1, 1, 5, 1, Color.DARK_GRAY));
-        }
-        puzzle[2][2].setBorder(BorderFactory.createMatteBorder(1, 1, 5, 5, Color.DARK_GRAY));
-        puzzle[2][5].setBorder(BorderFactory.createMatteBorder(1, 1, 5, 5, Color.DARK_GRAY));
-        puzzle[5][2].setBorder(BorderFactory.createMatteBorder(1, 1, 5, 5, Color.DARK_GRAY));
-        puzzle[5][5].setBorder(BorderFactory.createMatteBorder(1, 1, 5, 5, Color.DARK_GRAY));
     }
 
 }

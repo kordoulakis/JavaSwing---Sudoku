@@ -13,30 +13,24 @@ import java.util.Random;
  * @function @getRandomPuzzle returns a random puzzle that the current user has not yet completed.
  *
  */
-public class JSONPuzzles {
-    private JSONPuzzle[] puzzles;
+public class ClassicJSONPuzzles {
+    private ClassicJSONPuzzle[] puzzles;
 
-    public JSONPuzzles(){
-        puzzles = new JSONPuzzle[10];
+    public ClassicJSONPuzzles(){
+        puzzles = new ClassicJSONPuzzle[10];
     }
 
     /***
      *
      * @param path The absolute path to the file, must be in a folder called Puzzles after artifact is made
-     * @return returns the loaded JSON as a JSONPuzzles object which contains an array of arrays representing the puzzles
+     * @return returns the loaded JSON as a ClassicJSONPuzzles object which contains an array of arrays representing the puzzles
      * @throws FileNotFoundException If the file is not there, it's handled higher up in the codebase
      */
-    static JSONPuzzles deserializeClassicFile() throws FileNotFoundException {
+    static ClassicJSONPuzzles deserializeClassicFile() throws FileNotFoundException {
         String path = "Puzzles/ClassicPuzzles.json";
         BufferedReader bufferedReader = new BufferedReader(new FileReader(path));
 
-        return new Gson().fromJson(bufferedReader, JSONPuzzles.class);
-    }
-    static JSONPuzzles deserializeKillerFile() throws FileNotFoundException {
-        String path = "Puzzles/KillerPuzzles.json";
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(path));
-
-        return new Gson().fromJson(bufferedReader, JSONPuzzles.class);
+        return new Gson().fromJson(bufferedReader, ClassicJSONPuzzles.class);
     }
     public ArrayList<Integer> getAvailableClassicPuzzles(){
         ArrayList<Integer> completedPuzzles = Settings.getUserClassicPuzzles();
@@ -47,20 +41,19 @@ public class JSONPuzzles {
         else
             return null;
     }
-    public JSONPuzzle getRandomClassicPuzzle(ArrayList<Integer> availablePuzzles){
-        Random r = new Random();
+    public ClassicJSONPuzzle getRandomClassicPuzzle(ArrayList<Integer> availablePuzzles){
         if (availablePuzzles.size()>0) {
-            int random = r.nextInt(availablePuzzles.size());
+            int random = new Random().nextInt(availablePuzzles.size());
             return puzzles[availablePuzzles.get(random)-1];
         }
         return null; //This handles in case the user has solved all puzzles
     }
 
-    public static class JSONPuzzle {
+    public static class ClassicJSONPuzzle {
         private int id;
         private Integer[][] grid;
 
-        public JSONPuzzle(){
+        public ClassicJSONPuzzle(){
             grid = new Integer[9][9];
         }
 
