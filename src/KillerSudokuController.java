@@ -2,12 +2,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Random;
 
 public class KillerSudokuController implements GridController {
-    private LinkedList<String> availableLetters = new LinkedList<>(Arrays.asList("A", "B", "C", "D", "E", "F", "G", "H", "I"));
-    private LinkedList<String> availableNumbers = new LinkedList<>(Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9"));
     private Cell[][] puzzle;
     private Cell currentSelectedCell;
 
@@ -25,8 +24,7 @@ public class KillerSudokuController implements GridController {
     }
 
     public boolean createGrid(int rows, int columns, KillerJSONPuzzles killerPuzzles) {
-        //currentPuzzle = killerPuzzles.getRandomKillerPuzzle(killerPuzzles.getAvailableKillerPuzzles()); //Doesn't work, only one puzzle available
-        currentPuzzle = killerPuzzles.getPuzzles()[0];
+        currentPuzzle = killerPuzzles.getRandomKillerPuzzle(killerPuzzles.getAvailableKillerPuzzles()); //Doesn't work, only one puzzle available
         for (int y = 0; y < columns; ++y) {
             for (int x = 0; x < rows; ++x) {
                 Cell cell = new Cell(true, y, x);
@@ -47,17 +45,21 @@ public class KillerSudokuController implements GridController {
         Color temp;
         Font f = new Font("Arial", Font.BOLD, 60);
         boolean isFirst;
+        HashSet<Integer> ok = new HashSet<>();
         if (!areas.isEmpty())
             for (KillerJSONPuzzles.KillerJSONPuzzle.Area area : areas) {
                 isFirst = true;
                 temp = getRandomColor();
                 for (Integer i : area.getCellsOfArea()) {
+                    if (ok.contains(i)){ //Checks if there is an error in the puzzle
+                        System.err.println("Found " + i + " twice");
+                        return false;
+                }
+                    ok.add(i);
                     Cell cell = allCells.get(i - 1);
                     cell.setBackground(temp);
-
                     if (isFirst) {
-                        //cell.setText(area.getNumberToReach().toString());
-                        JLabel numberText = new JLabel(area.getNumberToReach().toString());
+                        JLabel numberText = new JLabel(area.getNumberToReach().toString(),null,JLabel.LEFT);
                         cell.add(numberText);
                         isFirst = false;
                     }
@@ -72,7 +74,7 @@ public class KillerSudokuController implements GridController {
     public Cell[][] getPuzzle() {
         return puzzle;
     }
-    
+
     @Override
     public boolean setInputAtCell(String userInput, Cell selectedCell, Cell[][] puzzle) {
         Integer userInputAsInt;
@@ -89,7 +91,6 @@ public class KillerSudokuController implements GridController {
 
             currentSelectedCell.setUserNumber(userInputAsInt);
             currentSelectedCell.setFont(new Font("Arial", Font.BOLD, 80));
-            System.out.println("Set usernumber as " + userInputAsInt);
             evaluateGameState();
         } else
             currentSelectedCell.paintUserError();
@@ -136,7 +137,6 @@ public class KillerSudokuController implements GridController {
             if (numberToReach == totalNumberOfCells)
                 ++solvedAreas;
         }
-        System.out.println("Solved areas: " + solvedAreas);
         if (solvedAreas == numberOfAreas) {
             showSolvedPuzzleScreen();
             saveUserData();
@@ -194,8 +194,8 @@ public class KillerSudokuController implements GridController {
 
     public Color getRandomColor() {
         Random r = new Random();
-        Color c = new Color(r.nextInt(256 - 120) + 120,
-                r.nextInt(256 - 120) + 120, r.nextInt(256 - 120) + 120);
+        Color c = new Color(r.nextInt(256 - 100) + 100,
+                r.nextInt(256 - 100) + 100, r.nextInt(256 - 120) + 100);
         return c;
     }
 }

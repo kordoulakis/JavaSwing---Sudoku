@@ -33,6 +33,11 @@ public class Users {
         return new Gson().fromJson(bufferedReader, Users.class);
     }
 
+    /**
+     * @definition This function grabs the current users object and overwrites the existing JSON file
+     *             Uses the gson library
+     * @param users all the current users
+     */
     public static void serializeAndWriteFile(Users users) {
         try (Writer writer = new FileWriter("Users.json")) {
             Gson gson = new GsonBuilder().create();

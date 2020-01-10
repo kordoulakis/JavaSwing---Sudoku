@@ -1,11 +1,13 @@
 import com.google.gson.Gson;
 
+import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
+import java.util.ResourceBundle;
 
 public class KillerJSONPuzzles {
     private KillerJSONPuzzle[] puzzles;
@@ -57,7 +59,6 @@ public class KillerJSONPuzzles {
         public KillerJSONPuzzle(){
 
         }
-
         static class Area{
             private Integer AreaID;
             private Integer numberToReach;

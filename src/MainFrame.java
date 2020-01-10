@@ -11,8 +11,8 @@ public class MainFrame extends JFrame {
         setSize((int)screen.getHeight()/2+200, (int)screen.getHeight()/2+200);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         FrameMenuBar menuBar = null;
-        MainMenu mainMenu = new MainMenu();
         menuBar = new FrameMenuBar();
+        MainMenu mainMenu = new MainMenu();
         setJMenuBar(menuBar);
         add(mainMenu);
         setVisible(true);

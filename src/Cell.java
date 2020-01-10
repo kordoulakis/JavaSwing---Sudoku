@@ -22,6 +22,7 @@ public class Cell extends JButton {
         setBackground(Color.WHITE);
         setFocusPainted(false);
         setFont(new Font("Moderne Sans",Font.BOLD,80));
+        setUserNumber(-1);
     }
 
     public void select(){ //Sets the current cell as selected

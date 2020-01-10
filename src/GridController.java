@@ -18,15 +18,15 @@ public interface GridController extends KeyListener, ActionListener {
         for (int x = 0; x < puzzle.length; ++x)
             for (int y = 0; y < puzzle.length; ++y) {
                 Cell cell = puzzle[x][y];
-                if (!cell.isSelectable()) {
                     Integer cellNumber = cell.getUserNumber();
-                    String text = availableLetters.get(cellNumber - 1);
-                    if (Settings.getPuzzleRepresentation().equals("Numbers")) {
-                        puzzle[x][y].setText(cellNumber.toString());
-                    } else {
-                        puzzle[x][y].setText(text);
+                    if (cellNumber > 0) {
+                        String text = availableLetters.get(cellNumber - 1);
+                        if (Settings.getPuzzleRepresentation().equals("Numbers")) {
+                            puzzle[x][y].setText(cellNumber.toString());
+                        } else {
+                            puzzle[x][y].setText(text);
+                        }
                     }
-                }
             }
     }
 

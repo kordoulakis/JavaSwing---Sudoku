@@ -3,6 +3,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 
 
 public class MainMenu extends JPanel implements ActionListener{
@@ -45,16 +47,10 @@ public class MainMenu extends JPanel implements ActionListener{
 
         gbc.gridx = 2; gbc.gridy = 4;
         add(duidokuButton,gbc);
-        try {
-            classicPuzzles = ClassicJSONPuzzles.deserializeClassicFile();
-            System.out.println("Loaded Classic Puzzles");
-            killerPuzzles = KillerJSONPuzzles.deserializeKillerFile();
-            System.out.println("Loaded Killer Sudoku Puzzles");
-        }
-        catch (FileNotFoundException f){
-            JOptionPane.showMessageDialog(MainFrame.self,"Puzzles file not found.\nMake sure there is a Puzzles" +
-                " folder in your directory","FUckedup",JOptionPane.ERROR_MESSAGE);
-        }
+
+        classicPuzzles = ClassicJSONPuzzles.deserializeClassicFile();
+        killerPuzzles = KillerJSONPuzzles.deserializeKillerFile();
+
         setVisible(true);
     }
 
@@ -65,24 +61,40 @@ public class MainMenu extends JPanel implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         MenuButton me = (MenuButton)e.getSource();
         if (me == classicButton) {
-            if(classicPuzzles.getAvailableClassicPuzzles()!=null) {
-                currentGrid = new ClassicGrid(classicPuzzles);
-                MainFrame.self.add((ClassicGrid) currentGrid);
-                setVisible(false);
-                Settings.setCurrentGrid(currentGrid);
+            if (classicPuzzles!=null) {
+                if (classicPuzzles.getAvailableClassicPuzzles() != null) {
+                    currentGrid = new ClassicGrid(classicPuzzles);
+                    MainFrame.self.add((ClassicGrid) currentGrid);
+                    setVisible(false);
+                    Settings.setCurrentGrid(currentGrid);
+                } else {
+                    ResourceBundle bundle = Settings.getGameBundle();
+                    JOptionPane.showMessageDialog(MainFrame.self, bundle.getString("AllSolved"));
+                }
             }
-            else
-                JOptionPane.showMessageDialog(MainFrame.self, "No more puzzles to solve!");
+            else{
+                ResourceBundle bundle = Settings.getGameBundle();
+                JOptionPane.showMessageDialog(MainFrame.self,bundle.getString("PuzzleNotFound"),bundle.getString("FileNotFound"),JOptionPane.ERROR_MESSAGE);
+            }
         }
         else if (me == killerSudokuButton){
-            if(killerPuzzles.getAvailableKillerPuzzles()!=null) {
-                currentGrid = new KillerSudokuGrid(killerPuzzles);
-                MainFrame.self.add((KillerSudokuGrid) currentGrid);
-                setVisible(false);
-                Settings.setCurrentGrid(currentGrid);
+            if (killerPuzzles != null) {
+                if (killerPuzzles.getAvailableKillerPuzzles() != null) {
+                    currentGrid = new KillerSudokuGrid(killerPuzzles);
+                    MainFrame.self.add((KillerSudokuGrid) currentGrid);
+                    setVisible(false);
+                    Settings.setCurrentGrid(currentGrid);
+                } else {
+                    ResourceBundle bundle = Settings.getGameBundle();
+                    JOptionPane.showMessageDialog(MainFrame.self, bundle.getString("AllSolved"));
+                }
             }
-            else
-                JOptionPane.showMessageDialog(MainFrame.self, "No more puzzles to solve!");
+            else{
+                ResourceBundle bundle = Settings.getGameBundle();
+                JOptionPane.showMessageDialog(MainFrame.self,bundle.getString("PuzzleNotFound"),bundle.getString("FileNotFound"),JOptionPane.ERROR_MESSAGE);
+            }
+
+
         }
         else if (me == duidokuButton) {
             currentGrid = new DuidokuGrid();
@@ -90,7 +102,6 @@ public class MainMenu extends JPanel implements ActionListener{
             setVisible(false);
             Settings.setCurrentGrid(currentGrid);
         }
-        //System.out.println("ActionListener worked, source: "+me.getText());
     }
 
 

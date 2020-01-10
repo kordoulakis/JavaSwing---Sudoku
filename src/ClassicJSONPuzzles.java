@@ -1,11 +1,13 @@
 import com.google.gson.Gson;
 
+import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
+import java.util.ResourceBundle;
 
 /***
  * This class handles the transformation of the JSON Files "---ClassicPuzzles.json" into a java object using gson
@@ -26,11 +28,16 @@ public class ClassicJSONPuzzles {
      * @return returns the loaded JSON as a ClassicJSONPuzzles object which contains an array of arrays representing the puzzles
      * @throws FileNotFoundException If the file is not there, it's handled higher up in the codebase
      */
-    static ClassicJSONPuzzles deserializeClassicFile() throws FileNotFoundException {
-        String path = "Puzzles/ClassicPuzzles.json";
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(path));
+    static ClassicJSONPuzzles deserializeClassicFile(){
+        try {
+            String path = "Puzzles/ClassicPuzzles.json";
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(path));
 
-        return new Gson().fromJson(bufferedReader, ClassicJSONPuzzles.class);
+            return new Gson().fromJson(bufferedReader, ClassicJSONPuzzles.class);
+        }
+        catch (FileNotFoundException f){
+            return null;
+        }
     }
     public ArrayList<Integer> getAvailableClassicPuzzles(){
         ArrayList<Integer> completedPuzzles = Settings.getUserClassicPuzzles();
