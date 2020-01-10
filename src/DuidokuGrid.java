@@ -1,7 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
 
-
 public class DuidokuGrid extends JPanel implements SudokuGrid {
 
     private GridLayout layout;

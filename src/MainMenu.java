@@ -7,7 +7,7 @@ import java.io.FileNotFoundException;
 
 public class MainMenu extends JPanel implements ActionListener{
     static MainMenu self;
-    private SudokuGrid currentGrid;
+    private static SudokuGrid currentGrid;
     private MenuButton classicButton;  //Buttons are referenced here first so the global actionListener can access them
     private MenuButton killerSudokuButton;
     private MenuButton duidokuButton;
@@ -58,6 +58,9 @@ public class MainMenu extends JPanel implements ActionListener{
         setVisible(true);
     }
 
+    static SudokuGrid getGrid(){
+        return currentGrid;
+    }
     @Override
     public void actionPerformed(ActionEvent e) {
         MenuButton me = (MenuButton)e.getSource();

@@ -34,9 +34,9 @@ public class DuidokuController implements GridController {
                 cell.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.DARK_GRAY));
                 parent.add(cell);
                 duidokuGrid[y][x] = cell;
-                player = true;
-                gameEnd = false;
             }
+        player = true;
+        gameEnd = false;
         paintBorders();
         return true;
     }
@@ -44,29 +44,6 @@ public class DuidokuController implements GridController {
     @Override
     public Cell[][] getPuzzle() {
         return duidokuGrid;
-    }
-
-    @Override
-    public void changeRepresentation() {
-        for (int x = 0; x < 4; ++x)
-            for (int y = 0; y < 4; ++y) {
-                String text = duidokuGrid[x][y].getText();
-                Integer textAsInt = 0;
-                if (!text.equals("")) {
-                    if (availableLetters.contains(text))
-                        textAsInt = availableLetters.indexOf(text) + 1;
-                    else if (availableNumbers.contains(text)) {
-                        textAsInt = Integer.parseInt(text);
-                        text = availableLetters.get(textAsInt - 1);
-                    } else
-                        break;
-
-                    if (Settings.getPuzzleRepresentation().equals("Numbers"))
-                        duidokuGrid[x][y].setText(textAsInt.toString());
-                    else
-                        duidokuGrid[x][y].setText(text);
-                }
-            }
     }
 
     @Override
@@ -89,7 +66,7 @@ public class DuidokuController implements GridController {
                 selectedCell.setText(userInputAsInt.toString());
             else
                 selectedCell.setText(availableLetters.get(userInputAsInt - 1));
-
+            selectedCell.setUserNumber(userInputAsInt);
             if (player)
                 selectedCell.setBackground(Color.CYAN);
             else
@@ -133,6 +110,11 @@ public class DuidokuController implements GridController {
     }
 
     @Override
+    public Cell getCurrentSelectedCell() {
+        return currentSelectedCell;
+    }
+
+    @Override
     public void actionPerformed(ActionEvent e) {
         Cell cell = (Cell) e.getSource();
         if (cell.isSelectable())
@@ -164,23 +146,28 @@ public class DuidokuController implements GridController {
         }
     }
 
+    private void endGame(){
+        ResourceBundle gameBundle = Settings.getGameBundle();
+        gameEnd = true;
+        player = !player;
+        String winner;
+        if (player) winner = Settings.getCurrentUser().getUsername();
+        else winner = gameBundle.getString("Computer");
+        saveUserData();
+        if (player)
+            JOptionPane.showMessageDialog(parent, gameBundle.getString("Winner")  + winner, gameBundle.getString("EndOfGame"), JOptionPane.INFORMATION_MESSAGE);
+        else
+            JOptionPane.showMessageDialog(parent, gameBundle.getString("Winner")  + winner, gameBundle.getString("EndOfGame"), JOptionPane.ERROR_MESSAGE);
+        MainMenu.self.returnToMainMenu();
+    }
     private void evaluateGameState() {
         for (int x = 0; x < 4; ++x)
             for (int y = 0; y < 4; ++y) {
                 if (duidokuGrid[x][y].isSelectable())
                     return;
             }
-        gameEnd = true;
-        player = !player;
-        String text;
-        if (player) text = "Player";
-        else text = "Computer";
-        saveUserData();
-        if (player)
-            JOptionPane.showMessageDialog(parent, "Winner: " + text, "END OF GAME", JOptionPane.INFORMATION_MESSAGE);
-        else
-            JOptionPane.showMessageDialog(parent, "Winner: " + text, "END OF GAME", JOptionPane.ERROR_MESSAGE);
-        MainMenu.self.returnToMainMenu();
+        //If we reach this point it means every cell is either filled or closed
+        endGame();
     }
 
     private void updateBoard() {
@@ -217,13 +204,12 @@ public class DuidokuController implements GridController {
     }
 
     private boolean areThereAvailableMoves() {
-        int available = 0;
         for (int x = 0; x < 4; ++x)
             for (int y = 0; y < 4; ++y) {
                 if (duidokuGrid[x][y].isSelectable())
-                    available++;
+                    return true;
             }
-        return available != 0;
+        return false;
     }
 
     public HashSet<String> getTipsForCell(Cell cell) {
@@ -249,10 +235,6 @@ public class DuidokuController implements GridController {
         return availableOptions;
     }
 
-    @Override
-    public void keyReleased(KeyEvent e) {
-
-    }
     @Override
     public void paintBorders(){
         Cell[][] puzzle = getPuzzle();

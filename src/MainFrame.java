@@ -8,18 +8,13 @@ public class MainFrame extends JFrame {
         super("Sudoku");
         self = this;
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-        //setSize((int)screen.getWidth()/2, (int)screen.getHeight()/2);
-        setSize(1080,1080);
+        setSize((int)screen.getHeight()/2+200, (int)screen.getHeight()/2+200);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         FrameMenuBar menuBar = null;
         MainMenu mainMenu = new MainMenu();
-        try {
-            menuBar = new FrameMenuBar();
-        }
-        catch (FileNotFoundException n){ }
+        menuBar = new FrameMenuBar();
         setJMenuBar(menuBar);
         add(mainMenu);
-
         setVisible(true);
     }
 

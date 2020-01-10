@@ -1,8 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Random;
@@ -74,25 +72,7 @@ public class KillerSudokuController implements GridController {
     public Cell[][] getPuzzle() {
         return puzzle;
     }
-
-    @Override
-    public void changeRepresentation() {
-        boolean representation;
-        if (Settings.getPuzzleRepresentation().equals("Numbers"))
-            representation = true;
-        else
-            representation = false;
-        for (int x = 0; x < 9; ++x)
-            for (int y = 0; y < 9; ++y) {
-                Integer userNumber = puzzle[x][y].getUserNumber();
-                if (!puzzle[x][y].getText().equals(""))
-                    if (representation)
-                        puzzle[x][y].setText(userNumber.toString());
-                    else
-                        puzzle[x][y].setText(availableLetters.get(userNumber - 1));
-            }
-    }
-
+    
     @Override
     public boolean setInputAtCell(String userInput, Cell selectedCell, Cell[][] puzzle) {
         Integer userInputAsInt;
@@ -158,7 +138,7 @@ public class KillerSudokuController implements GridController {
         }
         System.out.println("Solved areas: " + solvedAreas);
         if (solvedAreas == numberOfAreas) {
-            JOptionPane.showMessageDialog(MainFrame.self, "CONGRATULATIONS, YOU SOLVED THE PUZZLE!","END OF GAME",JOptionPane.INFORMATION_MESSAGE);
+            showSolvedPuzzleScreen();
             saveUserData();
         }
     }
@@ -185,13 +165,17 @@ public class KillerSudokuController implements GridController {
     }
 
     @Override
+    public Cell getCurrentSelectedCell() {
+        return currentSelectedCell;
+    }
+
+    @Override
     public void saveUserData() {
         Users.User user = Settings.getCurrentUser();
         user.addSolvedKillerSudokuPuzzleToArraylist(currentPuzzle.getId());
         Users.serializeAndWriteFile(Settings.getCurrentUsersList());
         MainMenu.self.returnToMainMenu();
     }
-
 
     @Override
     public boolean isAcceptableInput(Character input) {
@@ -207,33 +191,6 @@ public class KillerSudokuController implements GridController {
             setCurrentSelectedCell(cell);
     }
 
-    @Override
-    public void keyTyped(KeyEvent e) {
-
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) { //TODO Check inputs, implement updateboard()
-        Character key = e.getKeyChar();
-        if (e.getKeyCode() == KeyEvent.VK_ESCAPE) { //If player presses the Escape key, it promts him to go back to MainMenu
-            Object[] f = {"Yes", "No"};
-            int n = JOptionPane.showOptionDialog(parent, "Really Exit?", "Exit App", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, null, f, f[1]);
-            if (n == 0)
-                MainMenu.self.returnToMainMenu();
-        } else if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE)
-            if (currentSelectedCell != null && currentSelectedCell.isSelectable()) {
-                currentSelectedCell.setUserNumber(0);
-                currentSelectedCell.setText("");
-            }
-
-        if (isAcceptableInput(key))
-            setInputAtCell(key.toString().toUpperCase(), currentSelectedCell, puzzle);
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-
-    }
 
     public Color getRandomColor() {
         Random r = new Random();

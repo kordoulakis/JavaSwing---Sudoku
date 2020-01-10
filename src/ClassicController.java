@@ -1,9 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.io.FileNotFoundException;
 import java.util.*;
 
@@ -49,13 +46,13 @@ public class ClassicController implements GridController {
                     else
                         cell.setText(availableLetters.get(currentNumberFromGrid - 1));
                     cell.setUserNumber(currentNumberFromGrid);
-                    cell.setDefaultColor(new Color(140,200,221));
-                    cell.setBackground(new Color(140,200,221));
+                    cell.setDefaultColor(new Color(140, 200, 221));
+                    cell.setBackground(new Color(140, 200, 221));
                 } else {
                     cell.setHiddenNumber(currentNumberFromGrid);
                     ++guessesToBeMade;
                     cell.setText("");
-                    cell.setDefaultColor(new Color(80,255,150));
+                    cell.setDefaultColor(new Color(80, 255, 150));
                     cell.setForeground(Color.BLACK);
                 }
                 //cell.setText((test[y][x]).toString());
@@ -79,25 +76,6 @@ public class ClassicController implements GridController {
     @Override
     public Cell[][] getPuzzle() {
         return puzzle;
-    }
-
-    @Override
-    public void changeRepresentation() {
-        for (int x = 0; x < 9; ++x)
-            for (int y = 0; y < 9; ++y) {
-                Cell cell = puzzle[x][y];
-                if (!cell.isSelectable()){
-                    Integer cellNumber = cell.getUserNumber();
-                    String text = availableLetters.get(cellNumber-1);
-
-                    if (Settings.getPuzzleRepresentation().equals("Numbers")) {
-                        puzzle[x][y].setText(cellNumber.toString());
-                    }
-                    else{
-                        puzzle[x][y].setText(text);
-                    }
-                }
-            }
     }
 
     @Override
@@ -127,7 +105,7 @@ public class ClassicController implements GridController {
                 selectedCell.setFilled(true);
                 currentSelectedCell = null;
                 if (guessesToBeMade == 0) { //Every cell is filled correctly, exit game
-                    JOptionPane.showMessageDialog(MainFrame.self, "CONGRATULATIONS, YOU MADE IT!");
+                    showSolvedPuzzleScreen();
                     saveUserData();
                 }
                 return true;
@@ -152,7 +130,7 @@ public class ClassicController implements GridController {
      * @variable errors An int to know if an errors has been found
      */
     @Override
-    public boolean isUniqueInput(Cell selectedCell, Integer userNumber, Cell[][] puzzle){
+    public boolean isUniqueInput(Cell selectedCell, Integer userNumber, Cell[][] puzzle) {
         int row = selectedCell.getPositionX();
         int column = selectedCell.getPositionY();
         int errors = 0;
@@ -198,10 +176,7 @@ public class ClassicController implements GridController {
     public boolean isAcceptableInput(Character input) {
         if (currentSelectedCell != null)
             currentSelectedCell.setFont(new Font("Arial", Font.BOLD, 80));
-        if (availableLetters.contains(input.toString().toUpperCase()) || availableNumbers.contains(input.toString()))
-            return true;
-
-        return false;
+        return availableLetters.contains(input.toString().toUpperCase()) || availableNumbers.contains(input.toString());
     }
 
     @Override
@@ -220,9 +195,12 @@ public class ClassicController implements GridController {
         MainMenu.self.returnToMainMenu();
     }
 
+    public Cell getCurrentSelectedCell() {
+        return currentSelectedCell;
+    }
+
     @Override
     public boolean setCurrentSelectedCell(Cell cell) {
-
         if (currentSelectedCell != null && currentSelectedCell == cell)
             return false;
         else
@@ -253,33 +231,5 @@ public class ClassicController implements GridController {
         }
     }
 
-    /***
-     *
-     * @param e The typed key.
-     */
-    @Override
-    public void keyPressed(KeyEvent e) { //Takes the user input and assigns it to the selected Cell.
-        Character key = e.getKeyChar();
-        if (e.getKeyCode() == KeyEvent.VK_ESCAPE) { //If player presses the Escape key, it promts him to go back to MainMenu
-            Object[] f = {"Yes", "No"};
-            int n = JOptionPane.showOptionDialog(parent, "Really Exit?", "Exit App", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, null, f, f[1]);
-            if (n == 0)
-                MainMenu.self.returnToMainMenu();
-        } else if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE && currentSelectedCell != null && currentSelectedCell.isSelectable())
-            currentSelectedCell.setText("");
-
-        if (isAcceptableInput(key) && currentSelectedCell != null)
-            setInputAtCell(key.toString(), currentSelectedCell, puzzle);
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-
-    }
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-
-    }
 
 }
