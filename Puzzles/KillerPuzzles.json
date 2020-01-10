@@ -1,0 +1,1541 @@
+{
+  "puzzles": [
+    {
+      "id": 1,
+      "Areas": [
+        {
+          "AreaID": 1,
+          "numberToReach": 3,
+          "Cells": [1,2]
+        },
+        {
+          "AreaID": 2,
+          "numberToReach": 15,
+          "Cells": [3,4,5]
+        },
+        {
+          "AreaID": 3,
+          "numberToReach": 22,
+          "Cells": [6,14,15,23]
+        },
+        {
+          "AreaID": 4,
+          "numberToReach": 16,
+          "Cells": [8,17]
+        },
+        {
+          "AreaID": 5,
+          "numberToReach": 15,
+          "Cells": [9,18,27,36]
+        },
+        {
+          "AreaID": 6,
+          "numberToReach": 25,
+          "Cells": [10,11,19,20]
+        },
+        {
+          "AreaID": 7,
+          "numberToReach": 17,
+          "Cells": [12,13]
+        },
+        {
+          "AreaID": 8,
+          "numberToReach": 9,
+          "Cells": [21,22,31]
+        },
+        {
+          "AreaID": 9,
+          "numberToReach": 8,
+          "Cells": [24,33,42]
+        },
+        {
+          "AreaID": 10,
+          "numberToReach": 20,
+          "Cells": [25,26,34]
+        },
+        {
+          "AreaID": 11,
+          "numberToReach": 6,
+          "Cells": [28,37]
+        },
+        {
+          "AreaID": 12,
+          "numberToReach": 14,
+          "Cells": [29,30]
+        },
+        {
+          "AreaID": 13,
+          "numberToReach": 17,
+          "Cells": [32,41,50]
+        },
+        {
+          "AreaID": 14,
+          "numberToReach": 17,
+          "Cells": [35,43,44]
+        },
+        {
+          "AreaID": 15,
+          "numberToReach": 13,
+          "Cells": [38,39,47]
+        },
+        {
+          "AreaID": 16,
+          "numberToReach": 20,
+          "Cells": [40,49,58]
+        },
+        {
+          "AreaID": 17,
+          "numberToReach": 12,
+          "Cells": [45,54]
+        },
+        {
+          "AreaID": 18,
+          "numberToReach": 27,
+          "Cells": [46,55,64,73]
+        },
+        {
+          "AreaID": 19,
+          "numberToReach": 6,
+          "Cells": [48,56,57]
+        },
+        {
+          "AreaID": 20,
+          "numberToReach": 20,
+          "Cells": [51,60,61]
+        },
+        {
+          "AreaID": 21,
+          "numberToReach": 6,
+          "Cells": [52,53]
+        },
+        {
+          "AreaID": 22,
+          "numberToReach": 10,
+          "Cells": [59,68,67,76]
+        },
+        {
+          "AreaID": 23,
+          "numberToReach": 14,
+          "Cells": [62,63,71,72]
+        },
+        {
+          "AreaID": 24,
+          "numberToReach": 15,
+          "Cells": [69,70]
+        },
+        {
+          "AreaID": 25,
+          "numberToReach": 13,
+          "Cells": [77,78,79]
+        },
+        {
+          "AreaID": 26,
+          "numberToReach": 17,
+          "Cells": [80,81]
+        },
+        {
+          "AreaID": 27,
+          "numberToReach": 4,
+          "Cells": [7,16]
+        }
+      ,
+        {
+          "AreaID": 28,
+          "numberToReach": 8,
+          "Cells": [65,74]
+        }
+      ,
+        {
+          "AreaID": 29,
+          "numberToReach": 16,
+          "Cells": [66,75]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "Areas": [
+        {
+          "AreaID": 1,
+          "numberToReach": 5,
+          "Cells": [1,10]
+        },
+        {
+          "AreaID": 2,
+          "numberToReach": 18,
+          "Cells": [2,3,4]
+        },
+        {
+          "AreaID": 3,
+          "numberToReach": 26,
+          "Cells": [5,13,14,23]
+        },
+        {
+          "AreaID": 3,
+          "numberToReach": 9,
+          "Cells": [6,7,15]
+        },
+        {
+          "AreaID": 4,
+          "numberToReach": 14,
+          "Cells": [8,17]
+        },
+        {
+          "AreaID": 5,
+          "numberToReach": 8,
+          "Cells": [9,18]
+        },
+        {
+          "AreaID": 6,
+          "numberToReach": 11,
+          "Cells": [11,12]
+        },
+        {
+          "AreaID": 7,
+          "numberToReach": 10,
+          "Cells": [16,25]
+        },
+        {
+          "AreaID": 8,
+          "numberToReach": 9,
+          "Cells": [19,28]
+        },
+        {
+          "AreaID": 17,
+          "numberToReach": 17,
+          "Cells": [20,29]
+        },
+        {
+          "AreaID": 10,
+          "numberToReach": 8,
+          "Cells": [21,22,31]
+        },
+        {
+          "AreaID": 11,
+          "numberToReach": 13,
+          "Cells": [24,32,33]
+        },
+        {
+          "AreaID": 12,
+          "numberToReach": 23,
+          "Cells": [26,34,35]
+        },
+        {
+          "AreaID": 13,
+          "numberToReach": 22,
+          "Cells": [27,36,43,44,45,52,55]
+        },
+        {
+          "AreaID": 14,
+          "numberToReach": 25,
+          "Cells": [30,37,38,39,46]
+        },
+        {
+          "AreaID": 15,
+          "numberToReach": 20,
+          "Cells": [40,41,42]
+        },
+        {
+          "AreaID": 16,
+          "numberToReach": 18,
+          "Cells": [47,48,56]
+        },
+        {
+          "AreaID": 17,
+          "numberToReach": 9,
+          "Cells": [49,50,58]
+        },
+        {
+          "AreaID": 18,
+          "numberToReach": 23,
+          "Cells": [51,60,61]
+        },
+        {
+          "AreaID": 19,
+          "numberToReach": 4,
+          "Cells": [53,62]
+        },
+        {
+          "AreaID": 20,
+          "numberToReach": 13,
+          "Cells": [54,63]
+        },
+        {
+          "AreaID": 21,
+          "numberToReach": 11,
+          "Cells": [57,66]
+        },
+        {
+          "AreaID": 22,
+          "numberToReach": 17,
+          "Cells": [59,68,69,77]
+        },
+        {
+          "AreaID": 23,
+          "numberToReach": 15,
+          "Cells": [64,73]
+        },
+        {
+          "AreaID": 24,
+          "numberToReach": 5,
+          "Cells": [65,74]
+        },
+        {
+          "AreaID": 25,
+          "numberToReach": 18,
+          "Cells": [67,75,76]
+        },
+        {
+          "AreaID": 26,
+          "numberToReach": 7,
+          "Cells": [70,71]
+        },
+        {
+          "AreaID": 27,
+          "numberToReach": 15,
+          "Cells": [72,81]
+        },
+        {
+          "AreaID": 28,
+          "numberToReach": 10,
+          "Cells": [78,79,80]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "Areas": [
+        {
+          "AreaID": 1,
+          "numberToReach": 33,
+          "Cells": [1,2,10,11,19,20]
+        },
+        {
+          "AreaID": 2,
+          "numberToReach": 10,
+          "Cells": [3,12]
+        },
+        {
+          "AreaID": 3,
+          "numberToReach": 17,
+          "Cells": [4,5,6,13]
+        },
+        {
+          "AreaID": 4,
+          "numberToReach": 9,
+          "Cells": [7,15,16]
+        },
+        {
+          "AreaID": 5,
+          "numberToReach": 13,
+          "Cells": [8,17]
+        },
+        {
+          "AreaID": 6,
+          "numberToReach": 11,
+          "Cells": [9,18]
+        },
+        {
+          "AreaID": 7,
+          "numberToReach": 15,
+          "Cells": [14,23,24]
+        },
+        {
+          "AreaID": 8,
+          "numberToReach": 9,
+          "Cells": [21,22]
+        },
+        {
+          "AreaID": 9,
+          "numberToReach": 17,
+          "Cells": [25,34]
+        },
+        {
+          "AreaID": 10,
+          "numberToReach": 18,
+          "Cells": [26,27,36]
+        },
+        {
+          "AreaID": 11,
+          "numberToReach": 10,
+          "Cells": [28,29,37]
+        },
+        {
+          "AreaID": 12,
+          "numberToReach": 14,
+          "Cells": [30,39]
+        },
+        {
+          "AreaID": 13,
+          "numberToReach": 28,
+          "Cells": [31,40,41,42,51]
+        },
+        {
+          "AreaID": 14,
+          "numberToReach": 6,
+          "Cells": [32,33]
+        },
+        {
+          "AreaID": 15,
+          "numberToReach": 9,
+          "Cells": [35,44]
+        },
+        {
+          "AreaID": 16,
+          "numberToReach": 10,
+          "Cells": [38,47]
+        },
+        {
+          "AreaID": 17,
+          "numberToReach": 10,
+          "Cells": [43,52]
+        },
+        {
+          "AreaID": 18,
+          "numberToReach": 9,
+          "Cells": [45,53,54]
+        },
+        {
+          "AreaID": 19,
+          "numberToReach": 12,
+          "Cells": [46,55,56]
+        },
+        {
+          "AreaID": 20,
+          "numberToReach": 5,
+          "Cells": [48,57]
+        },
+        {
+          "AreaID": 21,
+          "numberToReach": 11,
+          "Cells": [49,50]
+        },
+        {
+          "AreaID": 22,
+          "numberToReach": 12,
+          "Cells": [58,59,68]
+        },
+        {
+          "AreaID": 23,
+          "numberToReach": 12,
+          "Cells": [60,61]
+        },
+        {
+          "AreaID": 24,
+          "numberToReach": 30,
+          "Cells": [62,63,71,72,80,81]
+        },
+        {
+          "AreaID": 25,
+          "numberToReach": 13,
+          "Cells": [64,73]
+        },
+        {
+          "AreaID": 26,
+          "numberToReach": 12,
+          "Cells": [65,74]
+        },
+        {
+          "AreaID": 27,
+          "numberToReach": 19,
+          "Cells": [66,67,75]
+        },
+        {
+          "AreaID": 28,
+          "numberToReach": 21,
+          "Cells": [69,76,77,78]
+        },
+        {
+          "AreaID": 29,
+          "numberToReach": 10,
+          "Cells": [70,79]
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "Areas": [
+        {
+          "AreaID": 1,
+          "numberToReach": 19,
+          "Cells": [1,2,3]
+        },
+        {
+          "AreaID": 2,
+          "numberToReach": 20,
+          "Cells": [4,5,6]
+        },
+        {
+          "AreaID": 3,
+          "numberToReach": 11,
+          "Cells": [7,8,17]
+        },
+        {
+          "AreaID": 4,
+          "numberToReach": 7,
+          "Cells": [9,18,26,27]
+        },
+        {
+          "AreaID": 5,
+          "numberToReach": 16,
+          "Cells": [10,11,19,20]
+        },
+        {
+          "AreaID": 6,
+          "numberToReach": 15,
+          "Cells": [12,13]
+        },
+        {
+          "AreaID": 7,
+          "numberToReach": 10,
+          "Cells": [14,23]
+        },
+        {
+          "AreaID": 8,
+          "numberToReach": 14,
+          "Cells": [15,16,24]
+        },
+        {
+          "AreaID": 9,
+          "numberToReach": 6,
+          "Cells": [21,22,31]
+        },
+        {
+          "AreaID": 10,
+          "numberToReach": 17,
+          "Cells": [28,29,37,46]
+        },
+        {
+          "AreaID": 11,
+          "numberToReach": 11,
+          "Cells": [30,39]
+        },
+        {
+          "AreaID": 12,
+          "numberToReach": 11,
+          "Cells": [32,33]
+        },
+        {
+          "AreaID": 13,
+          "numberToReach": 10,
+          "Cells": [35,44]
+        },
+        {
+          "AreaID": 14,
+          "numberToReach": 14,
+          "Cells": [36,45,53,54]
+        },
+        {
+          "AreaID": 15,
+          "numberToReach": 15,
+          "Cells": [38,47]
+        },
+        {
+          "AreaID": 16,
+          "numberToReach": 14,
+          "Cells": [40,41,42]
+        },
+        {
+          "AreaID": 17,
+          "numberToReach": 12,
+          "Cells": [43,52]
+        },
+        {
+          "AreaID": 18,
+          "numberToReach": 9,
+          "Cells": [55,56]
+        },
+        {
+          "AreaID": 19,
+          "numberToReach": 15,
+          "Cells": [49,50]
+        },
+        {
+          "AreaID": 20,
+          "numberToReach": 6,
+          "Cells": [51,60,61]
+        },
+        {
+          "AreaID": 21,
+          "numberToReach": 9,
+          "Cells": [48,57]
+        },
+        {
+          "AreaID": 22,
+          "numberToReach": 18,
+          "Cells": [58,66,67]
+        },
+        {
+          "AreaID": 23,
+          "numberToReach": 7,
+          "Cells": [59,68]
+        },
+        {
+          "AreaID": 24,
+          "numberToReach": 24,
+          "Cells": [62,63,71,72]
+        },
+        {
+          "AreaID": 25,
+          "numberToReach": 10,
+          "Cells": [64,73]
+        },
+        {
+          "AreaID": 26,
+          "numberToReach": 11,
+          "Cells": [65,74,75]
+        },
+        {
+          "AreaID": 27,
+          "numberToReach": 6,
+          "Cells": [69,70]
+        },
+        {
+          "AreaID": 28,
+          "numberToReach": 20,
+          "Cells": [76,77,78]
+        },
+        {
+          "AreaID": 29,
+          "numberToReach": 18,
+          "Cells": [79,80,81]
+        },
+        {
+          "AreaID": 30,
+          "numberToReach": 13,
+          "Cells": [25,34]
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "Areas": [
+        {
+          "AreaID": 1,
+          "numberToReach": 19,
+          "Cells": [1,2,3]
+        },
+        {
+          "AreaID": 2,
+          "numberToReach": 20,
+          "Cells": [4,5,6]
+        },
+        {
+          "AreaID": 3,
+          "numberToReach": 11,
+          "Cells": [7,8,17]
+        },
+        {
+          "AreaID": 4,
+          "numberToReach": 7,
+          "Cells": [9,18,26,27]
+        },
+        {
+          "AreaID": 5,
+          "numberToReach": 16,
+          "Cells": [10,11,19,20]
+        },
+        {
+          "AreaID": 6,
+          "numberToReach": 15,
+          "Cells": [12,13]
+        },
+        {
+          "AreaID": 7,
+          "numberToReach": 10,
+          "Cells": [14,23]
+        },
+        {
+          "AreaID": 8,
+          "numberToReach": 14,
+          "Cells": [15,16,24]
+        },
+        {
+          "AreaID": 9,
+          "numberToReach": 6,
+          "Cells": [21,22,31]
+        },
+        {
+          "AreaID": 10,
+          "numberToReach": 17,
+          "Cells": [28,29,37,46]
+        },
+        {
+          "AreaID": 11,
+          "numberToReach": 11,
+          "Cells": [30,39]
+        },
+        {
+          "AreaID": 12,
+          "numberToReach": 11,
+          "Cells": [32,33]
+        },
+        {
+          "AreaID": 13,
+          "numberToReach": 10,
+          "Cells": [35,44]
+        },
+        {
+          "AreaID": 14,
+          "numberToReach": 14,
+          "Cells": [36,45,53,54]
+        },
+        {
+          "AreaID": 15,
+          "numberToReach": 15,
+          "Cells": [38,47]
+        },
+        {
+          "AreaID": 16,
+          "numberToReach": 14,
+          "Cells": [40,41,42]
+        },
+        {
+          "AreaID": 17,
+          "numberToReach": 12,
+          "Cells": [43,52]
+        },
+        {
+          "AreaID": 18,
+          "numberToReach": 9,
+          "Cells": [55,56]
+        },
+        {
+          "AreaID": 19,
+          "numberToReach": 15,
+          "Cells": [49,50]
+        },
+        {
+          "AreaID": 20,
+          "numberToReach": 6,
+          "Cells": [51,60,61]
+        },
+        {
+          "AreaID": 21,
+          "numberToReach": 9,
+          "Cells": [48,57]
+        },
+        {
+          "AreaID": 22,
+          "numberToReach": 18,
+          "Cells": [58,66,67]
+        },
+        {
+          "AreaID": 23,
+          "numberToReach": 7,
+          "Cells": [59,68]
+        },
+        {
+          "AreaID": 24,
+          "numberToReach": 24,
+          "Cells": [62,63,71,72]
+        },
+        {
+          "AreaID": 25,
+          "numberToReach": 10,
+          "Cells": [64,73]
+        },
+        {
+          "AreaID": 26,
+          "numberToReach": 11,
+          "Cells": [65,74,75]
+        },
+        {
+          "AreaID": 27,
+          "numberToReach": 6,
+          "Cells": [69,70]
+        },
+        {
+          "AreaID": 28,
+          "numberToReach": 20,
+          "Cells": [76,77,78]
+        },
+        {
+          "AreaID": 29,
+          "numberToReach": 18,
+          "Cells": [79,80,81]
+        },
+        {
+          "AreaID": 30,
+          "numberToReach": 13,
+          "Cells": [25,34]
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "Areas": [
+        {
+          "AreaID": 1,
+          "numberToReach": 19,
+          "Cells": [1,2,3]
+        },
+        {
+          "AreaID": 2,
+          "numberToReach": 20,
+          "Cells": [4,5,6]
+        },
+        {
+          "AreaID": 3,
+          "numberToReach": 11,
+          "Cells": [7,8,17]
+        },
+        {
+          "AreaID": 4,
+          "numberToReach": 7,
+          "Cells": [9,18,26,27]
+        },
+        {
+          "AreaID": 5,
+          "numberToReach": 16,
+          "Cells": [10,11,19,20]
+        },
+        {
+          "AreaID": 6,
+          "numberToReach": 15,
+          "Cells": [12,13]
+        },
+        {
+          "AreaID": 7,
+          "numberToReach": 10,
+          "Cells": [14,23]
+        },
+        {
+          "AreaID": 8,
+          "numberToReach": 14,
+          "Cells": [15,16,24]
+        },
+        {
+          "AreaID": 9,
+          "numberToReach": 6,
+          "Cells": [21,22,31]
+        },
+        {
+          "AreaID": 10,
+          "numberToReach": 17,
+          "Cells": [28,29,37,46]
+        },
+        {
+          "AreaID": 11,
+          "numberToReach": 11,
+          "Cells": [30,39]
+        },
+        {
+          "AreaID": 12,
+          "numberToReach": 11,
+          "Cells": [32,33]
+        },
+        {
+          "AreaID": 13,
+          "numberToReach": 10,
+          "Cells": [35,44]
+        },
+        {
+          "AreaID": 14,
+          "numberToReach": 14,
+          "Cells": [36,45,53,54]
+        },
+        {
+          "AreaID": 15,
+          "numberToReach": 15,
+          "Cells": [38,47]
+        },
+        {
+          "AreaID": 16,
+          "numberToReach": 14,
+          "Cells": [40,41,42]
+        },
+        {
+          "AreaID": 17,
+          "numberToReach": 12,
+          "Cells": [43,52]
+        },
+        {
+          "AreaID": 18,
+          "numberToReach": 9,
+          "Cells": [55,56]
+        },
+        {
+          "AreaID": 19,
+          "numberToReach": 15,
+          "Cells": [49,50]
+        },
+        {
+          "AreaID": 20,
+          "numberToReach": 6,
+          "Cells": [51,60,61]
+        },
+        {
+          "AreaID": 21,
+          "numberToReach": 9,
+          "Cells": [48,57]
+        },
+        {
+          "AreaID": 22,
+          "numberToReach": 18,
+          "Cells": [58,66,67]
+        },
+        {
+          "AreaID": 23,
+          "numberToReach": 7,
+          "Cells": [59,68]
+        },
+        {
+          "AreaID": 24,
+          "numberToReach": 24,
+          "Cells": [62,63,71,72]
+        },
+        {
+          "AreaID": 25,
+          "numberToReach": 10,
+          "Cells": [64,73]
+        },
+        {
+          "AreaID": 26,
+          "numberToReach": 11,
+          "Cells": [65,74,75]
+        },
+        {
+          "AreaID": 27,
+          "numberToReach": 6,
+          "Cells": [69,70]
+        },
+        {
+          "AreaID": 28,
+          "numberToReach": 20,
+          "Cells": [76,77,78]
+        },
+        {
+          "AreaID": 29,
+          "numberToReach": 18,
+          "Cells": [79,80,81]
+        },
+        {
+          "AreaID": 30,
+          "numberToReach": 13,
+          "Cells": [25,34]
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "Areas": [
+        {
+          "AreaID": 1,
+          "numberToReach": 19,
+          "Cells": [1,2,3]
+        },
+        {
+          "AreaID": 2,
+          "numberToReach": 20,
+          "Cells": [4,5,6]
+        },
+        {
+          "AreaID": 3,
+          "numberToReach": 11,
+          "Cells": [7,8,17]
+        },
+        {
+          "AreaID": 4,
+          "numberToReach": 7,
+          "Cells": [9,18,26,27]
+        },
+        {
+          "AreaID": 5,
+          "numberToReach": 16,
+          "Cells": [10,11,19,20]
+        },
+        {
+          "AreaID": 6,
+          "numberToReach": 15,
+          "Cells": [12,13]
+        },
+        {
+          "AreaID": 7,
+          "numberToReach": 10,
+          "Cells": [14,23]
+        },
+        {
+          "AreaID": 8,
+          "numberToReach": 14,
+          "Cells": [15,16,24]
+        },
+        {
+          "AreaID": 9,
+          "numberToReach": 6,
+          "Cells": [21,22,31]
+        },
+        {
+          "AreaID": 10,
+          "numberToReach": 17,
+          "Cells": [28,29,37,46]
+        },
+        {
+          "AreaID": 11,
+          "numberToReach": 11,
+          "Cells": [30,39]
+        },
+        {
+          "AreaID": 12,
+          "numberToReach": 11,
+          "Cells": [32,33]
+        },
+        {
+          "AreaID": 13,
+          "numberToReach": 10,
+          "Cells": [35,44]
+        },
+        {
+          "AreaID": 14,
+          "numberToReach": 14,
+          "Cells": [36,45,53,54]
+        },
+        {
+          "AreaID": 15,
+          "numberToReach": 15,
+          "Cells": [38,47]
+        },
+        {
+          "AreaID": 16,
+          "numberToReach": 14,
+          "Cells": [40,41,42]
+        },
+        {
+          "AreaID": 17,
+          "numberToReach": 12,
+          "Cells": [43,52]
+        },
+        {
+          "AreaID": 18,
+          "numberToReach": 9,
+          "Cells": [55,56]
+        },
+        {
+          "AreaID": 19,
+          "numberToReach": 15,
+          "Cells": [49,50]
+        },
+        {
+          "AreaID": 20,
+          "numberToReach": 6,
+          "Cells": [51,60,61]
+        },
+        {
+          "AreaID": 21,
+          "numberToReach": 9,
+          "Cells": [48,57]
+        },
+        {
+          "AreaID": 22,
+          "numberToReach": 18,
+          "Cells": [58,66,67]
+        },
+        {
+          "AreaID": 23,
+          "numberToReach": 7,
+          "Cells": [59,68]
+        },
+        {
+          "AreaID": 24,
+          "numberToReach": 24,
+          "Cells": [62,63,71,72]
+        },
+        {
+          "AreaID": 25,
+          "numberToReach": 10,
+          "Cells": [64,73]
+        },
+        {
+          "AreaID": 26,
+          "numberToReach": 11,
+          "Cells": [65,74,75]
+        },
+        {
+          "AreaID": 27,
+          "numberToReach": 6,
+          "Cells": [69,70]
+        },
+        {
+          "AreaID": 28,
+          "numberToReach": 20,
+          "Cells": [76,77,78]
+        },
+        {
+          "AreaID": 29,
+          "numberToReach": 18,
+          "Cells": [79,80,81]
+        },
+        {
+          "AreaID": 30,
+          "numberToReach": 13,
+          "Cells": [25,34]
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "Areas": [
+        {
+          "AreaID": 1,
+          "numberToReach": 19,
+          "Cells": [1,2,3]
+        },
+        {
+          "AreaID": 2,
+          "numberToReach": 20,
+          "Cells": [4,5,6]
+        },
+        {
+          "AreaID": 3,
+          "numberToReach": 11,
+          "Cells": [7,8,17]
+        },
+        {
+          "AreaID": 4,
+          "numberToReach": 7,
+          "Cells": [9,18,26,27]
+        },
+        {
+          "AreaID": 5,
+          "numberToReach": 16,
+          "Cells": [10,11,19,20]
+        },
+        {
+          "AreaID": 6,
+          "numberToReach": 15,
+          "Cells": [12,13]
+        },
+        {
+          "AreaID": 7,
+          "numberToReach": 10,
+          "Cells": [14,23]
+        },
+        {
+          "AreaID": 8,
+          "numberToReach": 14,
+          "Cells": [15,16,24]
+        },
+        {
+          "AreaID": 9,
+          "numberToReach": 6,
+          "Cells": [21,22,31]
+        },
+        {
+          "AreaID": 10,
+          "numberToReach": 17,
+          "Cells": [28,29,37,46]
+        },
+        {
+          "AreaID": 11,
+          "numberToReach": 11,
+          "Cells": [30,39]
+        },
+        {
+          "AreaID": 12,
+          "numberToReach": 11,
+          "Cells": [32,33]
+        },
+        {
+          "AreaID": 13,
+          "numberToReach": 10,
+          "Cells": [35,44]
+        },
+        {
+          "AreaID": 14,
+          "numberToReach": 14,
+          "Cells": [36,45,53,54]
+        },
+        {
+          "AreaID": 15,
+          "numberToReach": 15,
+          "Cells": [38,47]
+        },
+        {
+          "AreaID": 16,
+          "numberToReach": 14,
+          "Cells": [40,41,42]
+        },
+        {
+          "AreaID": 17,
+          "numberToReach": 12,
+          "Cells": [43,52]
+        },
+        {
+          "AreaID": 18,
+          "numberToReach": 9,
+          "Cells": [55,56]
+        },
+        {
+          "AreaID": 19,
+          "numberToReach": 15,
+          "Cells": [49,50]
+        },
+        {
+          "AreaID": 20,
+          "numberToReach": 6,
+          "Cells": [51,60,61]
+        },
+        {
+          "AreaID": 21,
+          "numberToReach": 9,
+          "Cells": [48,57]
+        },
+        {
+          "AreaID": 22,
+          "numberToReach": 18,
+          "Cells": [58,66,67]
+        },
+        {
+          "AreaID": 23,
+          "numberToReach": 7,
+          "Cells": [59,68]
+        },
+        {
+          "AreaID": 24,
+          "numberToReach": 24,
+          "Cells": [62,63,71,72]
+        },
+        {
+          "AreaID": 25,
+          "numberToReach": 10,
+          "Cells": [64,73]
+        },
+        {
+          "AreaID": 26,
+          "numberToReach": 11,
+          "Cells": [65,74,75]
+        },
+        {
+          "AreaID": 27,
+          "numberToReach": 6,
+          "Cells": [69,70]
+        },
+        {
+          "AreaID": 28,
+          "numberToReach": 20,
+          "Cells": [76,77,78]
+        },
+        {
+          "AreaID": 29,
+          "numberToReach": 18,
+          "Cells": [79,80,81]
+        },
+        {
+          "AreaID": 30,
+          "numberToReach": 13,
+          "Cells": [25,34]
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "Areas": [
+        {
+          "AreaID": 1,
+          "numberToReach": 19,
+          "Cells": [1,2,3]
+        },
+        {
+          "AreaID": 2,
+          "numberToReach": 20,
+          "Cells": [4,5,6]
+        },
+        {
+          "AreaID": 3,
+          "numberToReach": 11,
+          "Cells": [7,8,17]
+        },
+        {
+          "AreaID": 4,
+          "numberToReach": 7,
+          "Cells": [9,18,26,27]
+        },
+        {
+          "AreaID": 5,
+          "numberToReach": 16,
+          "Cells": [10,11,19,20]
+        },
+        {
+          "AreaID": 6,
+          "numberToReach": 15,
+          "Cells": [12,13]
+        },
+        {
+          "AreaID": 7,
+          "numberToReach": 10,
+          "Cells": [14,23]
+        },
+        {
+          "AreaID": 8,
+          "numberToReach": 14,
+          "Cells": [15,16,24]
+        },
+        {
+          "AreaID": 9,
+          "numberToReach": 6,
+          "Cells": [21,22,31]
+        },
+        {
+          "AreaID": 10,
+          "numberToReach": 17,
+          "Cells": [28,29,37,46]
+        },
+        {
+          "AreaID": 11,
+          "numberToReach": 11,
+          "Cells": [30,39]
+        },
+        {
+          "AreaID": 12,
+          "numberToReach": 11,
+          "Cells": [32,33]
+        },
+        {
+          "AreaID": 13,
+          "numberToReach": 10,
+          "Cells": [35,44]
+        },
+        {
+          "AreaID": 14,
+          "numberToReach": 14,
+          "Cells": [36,45,53,54]
+        },
+        {
+          "AreaID": 15,
+          "numberToReach": 15,
+          "Cells": [38,47]
+        },
+        {
+          "AreaID": 16,
+          "numberToReach": 14,
+          "Cells": [40,41,42]
+        },
+        {
+          "AreaID": 17,
+          "numberToReach": 12,
+          "Cells": [43,52]
+        },
+        {
+          "AreaID": 18,
+          "numberToReach": 9,
+          "Cells": [55,56]
+        },
+        {
+          "AreaID": 19,
+          "numberToReach": 15,
+          "Cells": [49,50]
+        },
+        {
+          "AreaID": 20,
+          "numberToReach": 6,
+          "Cells": [51,60,61]
+        },
+        {
+          "AreaID": 21,
+          "numberToReach": 9,
+          "Cells": [48,57]
+        },
+        {
+          "AreaID": 22,
+          "numberToReach": 18,
+          "Cells": [58,66,67]
+        },
+        {
+          "AreaID": 23,
+          "numberToReach": 7,
+          "Cells": [59,68]
+        },
+        {
+          "AreaID": 24,
+          "numberToReach": 24,
+          "Cells": [62,63,71,72]
+        },
+        {
+          "AreaID": 25,
+          "numberToReach": 10,
+          "Cells": [64,73]
+        },
+        {
+          "AreaID": 26,
+          "numberToReach": 11,
+          "Cells": [65,74,75]
+        },
+        {
+          "AreaID": 27,
+          "numberToReach": 6,
+          "Cells": [69,70]
+        },
+        {
+          "AreaID": 28,
+          "numberToReach": 20,
+          "Cells": [76,77,78]
+        },
+        {
+          "AreaID": 29,
+          "numberToReach": 18,
+          "Cells": [79,80,81]
+        },
+        {
+          "AreaID": 30,
+          "numberToReach": 13,
+          "Cells": [25,34]
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "Areas": [
+        {
+          "AreaID": 1,
+          "numberToReach": 19,
+          "Cells": [1,2,3]
+        },
+        {
+          "AreaID": 2,
+          "numberToReach": 20,
+          "Cells": [4,5,6]
+        },
+        {
+          "AreaID": 3,
+          "numberToReach": 11,
+          "Cells": [7,8,17]
+        },
+        {
+          "AreaID": 4,
+          "numberToReach": 7,
+          "Cells": [9,18,26,27]
+        },
+        {
+          "AreaID": 5,
+          "numberToReach": 16,
+          "Cells": [10,11,19,20]
+        },
+        {
+          "AreaID": 6,
+          "numberToReach": 15,
+          "Cells": [12,13]
+        },
+        {
+          "AreaID": 7,
+          "numberToReach": 10,
+          "Cells": [14,23]
+        },
+        {
+          "AreaID": 8,
+          "numberToReach": 14,
+          "Cells": [15,16,24]
+        },
+        {
+          "AreaID": 9,
+          "numberToReach": 6,
+          "Cells": [21,22,31]
+        },
+        {
+          "AreaID": 10,
+          "numberToReach": 17,
+          "Cells": [28,29,37,46]
+        },
+        {
+          "AreaID": 11,
+          "numberToReach": 11,
+          "Cells": [30,39]
+        },
+        {
+          "AreaID": 12,
+          "numberToReach": 11,
+          "Cells": [32,33]
+        },
+        {
+          "AreaID": 13,
+          "numberToReach": 10,
+          "Cells": [35,44]
+        },
+        {
+          "AreaID": 14,
+          "numberToReach": 14,
+          "Cells": [36,45,53,54]
+        },
+        {
+          "AreaID": 15,
+          "numberToReach": 15,
+          "Cells": [38,47]
+        },
+        {
+          "AreaID": 16,
+          "numberToReach": 14,
+          "Cells": [40,41,42]
+        },
+        {
+          "AreaID": 17,
+          "numberToReach": 12,
+          "Cells": [43,52]
+        },
+        {
+          "AreaID": 18,
+          "numberToReach": 9,
+          "Cells": [55,56]
+        },
+        {
+          "AreaID": 19,
+          "numberToReach": 15,
+          "Cells": [49,50]
+        },
+        {
+          "AreaID": 20,
+          "numberToReach": 6,
+          "Cells": [51,60,61]
+        },
+        {
+          "AreaID": 21,
+          "numberToReach": 9,
+          "Cells": [48,57]
+        },
+        {
+          "AreaID": 22,
+          "numberToReach": 18,
+          "Cells": [58,66,67]
+        },
+        {
+          "AreaID": 23,
+          "numberToReach": 7,
+          "Cells": [59,68]
+        },
+        {
+          "AreaID": 24,
+          "numberToReach": 24,
+          "Cells": [62,63,71,72]
+        },
+        {
+          "AreaID": 25,
+          "numberToReach": 10,
+          "Cells": [64,73]
+        },
+        {
+          "AreaID": 26,
+          "numberToReach": 11,
+          "Cells": [65,74,75]
+        },
+        {
+          "AreaID": 27,
+          "numberToReach": 6,
+          "Cells": [69,70]
+        },
+        {
+          "AreaID": 28,
+          "numberToReach": 20,
+          "Cells": [76,77,78]
+        },
+        {
+          "AreaID": 29,
+          "numberToReach": 18,
+          "Cells": [79,80,81]
+        },
+        {
+          "AreaID": 30,
+          "numberToReach": 13,
+          "Cells": [25,34]
+        }
+      ]
+    }
+  ]
+}
