@@ -16,7 +16,9 @@ public class DuidokuGrid extends JPanel implements SudokuGrid {
         duidokuController.createGrid(4,4);
     }
     @Override
-    public void setVisibility(boolean visible) { setVisible(visible); }
+    public void setVisibility(boolean visible) {
+        System.out.println("Visibility off");
+        setVisible(visible); }
 
     @Override
     public GridController getController() {

@@ -95,11 +95,12 @@ public class MainMenu extends JPanel implements ActionListener{
         try {
             currentGrid.setVisibility(false);
             currentGrid = null;
+            setVisible(true);
         }
         catch(NullPointerException n){
             System.out.println("Exception cought on return to menu");
         }
-        setVisible(true);
+
     }
 
 }

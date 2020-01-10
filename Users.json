@@ -1,1 +1,29 @@
-{"users":[{"username":"Elias","solvedClassicPuzzles":[10,9,6,1,4]}]}
+{
+  "users": [
+    {
+      "username": "Shadehater",
+      "solvedClassicPuzzles": [
+      ],
+      "solvedKillerPuzzles": [
+      ],
+      "gamesAgainstComputer": [
+        "Victory",
+        "Defeat",
+        "Defeat",
+        "Defeat",
+        "Victory",
+        "Defeat",
+        "Victory",
+        "Defeat",
+        "Victory",
+        "Defeat",
+        "Defeat",
+        "Defeat",
+        "Defeat",
+        "Defeat",
+        "Defeat",
+        "Victory"
+      ]
+    }
+  ]
+}

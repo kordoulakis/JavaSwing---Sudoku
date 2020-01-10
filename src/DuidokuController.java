@@ -6,7 +6,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.*;
 
-public class DuidokuController implements GridController, ActionListener, KeyListener {
+public class DuidokuController implements GridController {
     private DuidokuGrid parent;
     private Cell[][] duidokuGrid;
     private Cell currentSelectedCell;
@@ -83,7 +83,7 @@ public class DuidokuController implements GridController, ActionListener, KeyLis
         } else
             userInputAsInt = Integer.parseInt(input);
 
-        if (isCorrect(selectedCell, userInputAsInt, getPuzzle())) {
+        if (isUniqueInput(selectedCell, userInputAsInt, getPuzzle())) {
             selectedCell.setFont(new Font("Arial", Font.BOLD, 80));
             if (Settings.getPuzzleRepresentation().equals("Numbers"))
                 selectedCell.setText(userInputAsInt.toString());
@@ -103,7 +103,7 @@ public class DuidokuController implements GridController, ActionListener, KeyLis
     }
 
     @Override
-    public boolean isCorrect(Cell currentSelectedCell, Integer input, Cell[][] puzzle) {
+    public boolean isUniqueInput(Cell currentSelectedCell, Integer input, Cell[][] puzzle) {
         int row = currentSelectedCell.getPositionX();
         int column = currentSelectedCell.getPositionY();
         String textToSet = null;
@@ -153,7 +153,7 @@ public class DuidokuController implements GridController, ActionListener, KeyLis
             if (n == 0)
                 MainMenu.self.returnToMainMenu();
         }
-        if (availableLetters.contains(key.toString().toUpperCase()) || availableNumbers.contains(key.toString())) {
+        if (isAcceptableInput(key)) {
             if (setInputAtCell(key.toString().toUpperCase(), currentSelectedCell, duidokuGrid)) {
                 updateBoard();
                 if (!gameEnd) {
@@ -176,9 +176,11 @@ public class DuidokuController implements GridController, ActionListener, KeyLis
         if (player) text = "Player";
         else text = "Computer";
         saveUserData();
-        JOptionPane.showMessageDialog(parent, "Winner: " + text, "END OF GAME", JOptionPane.ERROR_MESSAGE);
+        if (player)
+            JOptionPane.showMessageDialog(parent, "Winner: " + text, "END OF GAME", JOptionPane.INFORMATION_MESSAGE);
+        else
+            JOptionPane.showMessageDialog(parent, "Winner: " + text, "END OF GAME", JOptionPane.ERROR_MESSAGE);
         MainMenu.self.returnToMainMenu();
-
     }
 
     private void updateBoard() {
@@ -200,15 +202,18 @@ public class DuidokuController implements GridController, ActionListener, KeyLis
         evaluateGameState();
     }
 
-    public boolean saveUserData() {
+    public void saveUserData() {
         Users.User user = Settings.getCurrentUser();
         if (player)
             user.addGameToDuidokuArraylist("Victory");
         else
             user.addGameToDuidokuArraylist("Defeat");
         Users.serializeAndWriteFile(Settings.getCurrentUsersList());
+    }
 
-        return true;
+    @Override
+    public boolean isAcceptableInput(Character input) {
+        return availableNumbers.contains(input.toString()) || availableLetters.contains(input.toString().toUpperCase());
     }
 
     private boolean areThereAvailableMoves() {

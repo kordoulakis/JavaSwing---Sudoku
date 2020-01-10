@@ -16,11 +16,11 @@ public class KillerSudokuGrid extends JPanel implements SudokuGrid {
 
     @Override
     public void setVisibility(boolean visible) {
-
+        setVisible(false);
     }
 
     @Override
     public GridController getController() {
-        return null;
+        return controller;
     }
 }

@@ -152,8 +152,36 @@
         }
       ]
     },
-    null,
-    null,
+    {
+      "id": 2,
+      "Areas": [
+        {
+          "AreaID": 1,
+          "numberToReach": 3,
+          "Cells": [1,2]
+        },
+        {
+          "AreaID": 1,
+          "numberToReach": 3,
+          "Cells": [1,2]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "Areas": [
+        {
+          "AreaID": 1,
+          "numberToReach": 3,
+          "Cells": [1,2]
+        },
+        {
+          "AreaID": 1,
+          "numberToReach": 3,
+          "Cells": [1,2]
+        }
+      ]
+    },,
     null,
     null,
     null,

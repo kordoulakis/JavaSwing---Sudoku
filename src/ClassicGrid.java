@@ -22,8 +22,6 @@ public class ClassicGrid extends JPanel implements SudokuGrid{
     public void setVisibility(boolean visible) {
         setVisible(visible);
     }
-
-
     public boolean getVisibility(){ return isVisible(); }
     public GridController getController(){ return classicController; }
 

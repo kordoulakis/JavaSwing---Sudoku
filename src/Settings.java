@@ -24,7 +24,7 @@ public class Settings {
     public Settings(){
         language = "English";
         puzzleRepresentation = "Numbers";
-        try { //If the file is deleted or doesn't exist, it creates a new Users Object off that.
+        try { //If the file is deleted or doesn't exist, it creates a new Users Object
             currentUsersList = Users.loadFile();
             currentUser = currentUsersList.getList().get(0);
         }
