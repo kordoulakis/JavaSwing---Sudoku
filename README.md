@@ -12,6 +12,7 @@ Clone the git repository and make sure the gson library is properly loaded as a 
 IntelliJ IDEA
 Java 11
  
-## Authors
+## Author
 * **Κορδούλας Ηλίας - ΑΕΜ: 3041** 
-* **Γερονάτσιος Ευάγγελος - ΑΕΜ: 3561**
+
+##Contributors
